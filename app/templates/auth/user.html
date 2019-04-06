@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block c %}
+
+	{% if current_user.role == 'admin' %}
+		<nav aria-label="breadcrumb" class="sticky-top">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item active" aria-current="page"><a href="{{ url_for('auth.user_management') }}">User Management</a></li>
+				<li class="breadcrumb-item active" aria-current="page">{{ user.username }}</li>
+				<div class="ml-auto">
+					<button class="btn btn-primary btn-fixed ml-auto" id="gotopButton" onclick="gotop();">top</button>
+					{% if user.username == current_user.username %}
+						<a href="{{ url_for('auth.user_edit', username=current_user.username) }}" class="btn btn-primary btn-fixed ml-auto">edit</a>
+					{% endif %}
+				</div>
+			</ol>
+		</nav>
+
+		<script>
+    	$("#gotopButton").hide();
+    	var startScroll = $(window).scrollTop();
+    	var lastScroll = 0;
+    	$(window).scroll(function(event){
+    		if ($(this).scrollTop() <= startScroll + 200) $("#gotopButton").fadeOut('slow');
+    		else $("#gotopButton").fadeIn('slow');
+    	});
+
+		function gotop(){
+			$("body, html").animate({ scrollTop: 0 }, 800);
+			return false;
+		}
+		</script>
+	{% endif %}
+
+	<table class="table">
+		<tr valign="top">
+			<td rowspan="3"><img class="avatar_ico" src="{{ user.avatar(128) }}"></td>
+			<td>Name : </td>
+			<td>{{ user.firstname }}, {{ user.lastname }}</td>
+		</tr>
+		<tr>
+			<td>Email : </td>
+			<td>{{ user.email }}</td>
+		</tr>
+		<tr>
+			<td>Role : </td>
+			<td>{{ user.role }}</td>
+		</tr>
+	</table>
+
+{% endblock %}

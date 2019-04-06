@@ -17,4 +17,4 @@ def login():
     if form.validate_on_submit():
         flash('Du bist nun eingeloggt.', 'success')
         return redirect('/index')
-    return render_template('login.html', title='Login', form=form)
+    return render_template('auth/login.html', title='Login', form=form)

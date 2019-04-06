@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block c %}
+	<nav aria-label="breadcrumb" class="sticky-top">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item active" aria-current="page">User Management</li>
+			<div class="ml-auto">
+				<button class="btn btn-primary btn-fixed ml-auto" id="gotopButton" onclick="gotop();">top</button>
+				<a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-fixed ml-auto">+</a>
+			</div>
+		</ol>
+	</nav>
+	<script>
+    	$("#gotopButton").hide();
+    	var startScroll = $(window).scrollTop();
+    	var lastScroll = 0;
+    	$(window).scroll(function(event){
+    		if ($(this).scrollTop() <= startScroll + 200) $("#gotopButton").fadeOut('slow');
+    		else $("#gotopButton").fadeIn('slow');
+    	});
+
+		function gotop(){
+			$("body, html").animate({ scrollTop: 0 }, 800);
+			return false;
+		}
+
+		function save_role(user_id, new_role){
+			$.post('{{ url_for('auth.change_user_role') }}', {user_id: user_id, new_role: new_role}).done(
+			function(response){
+				$("#status-msg").html('<div class="alert alert-'+response["info_state"]+'">'+response["info_msg"]+'</div>');
+				$("#status-msg").hide();
+				$("#status-msg").slideDown(function(){
+					$("#status-msg").delay(3000).slideUp();
+				});
+			});
+		}
+	</script>
+    <hr class="mb-5">
+
+
+	<table class="table small">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col">User</th>
+				<th scope="col">Lastname, Firstname</th>
+				<th scope="col">Email</th>
+				<th scope="col">Role</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in user_list %}
+				<tr>
+					<td><img class="avatar_ico" src="{{ user.avatar(50) }}"></td>
+					<th scope="row"><a href="{{ url_for('auth.user', username=user.username) }}" class="btn btn-secondary btn-fixed"><small>{{ user.username }}</small></a></th>
+					<td class="">{{ user.lastname }}, {{ user.firstname }}</td>
+					<td class="">{{ user.email }}</td>
+					<td class="">
+						<select id="select{{ user.id }}" onchange="save_role({{ user.id }}, this.value);">
+							{% for role in roles %}
+								{% if role.name == user.role %}
+									<option value="{{ role.name }}" selected>{{ role.name }}</option>
+								{% else %}
+									<option value="{{ role.name }}">{{ role.name }}</option>
+								{% endif %}
+							{% endfor %}
+						</select>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

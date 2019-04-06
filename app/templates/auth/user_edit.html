@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block c %}
+
+
+	<nav aria-label="breadcrumb" class="sticky-top">
+		<ol class="breadcrumb">
+			<button class="btn btn-primary btn-fixed ml-auto" id="gotopButton" onclick="gotop();">top</button>
+			<li class="breadcrumb-item"><a href="{{ url_for('auth.user', username=current_user.username) }}">{{ current_user.username }}</a></li>
+			<li class="breadcrumb-item active" aria-current="page">[edit]</li>
+		</ol>
+	</nav>
+	<script>
+    	$("#gotopButton").hide();
+    	var startScroll = $(window).scrollTop();
+    	var lastScroll = 0;
+    	$(window).scroll(function(event){
+    		if ($(this).scrollTop() <= startScroll + 200) $("#gotopButton").fadeOut('slow');
+    		else $("#gotopButton").fadeIn('slow');
+    	});
+
+		function gotop(){
+			$("body, html").animate({ scrollTop: 0 }, 800);
+			return false;
+		}
+	</script>
+
+
+	<div class="row">
+		<div class="col-md-4">
+		{{ wtf.quick_form(form) }}
+		</div>
+	</div>
+
+
+{% endblock %}

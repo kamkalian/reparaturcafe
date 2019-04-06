@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block c %}
+	<nav aria-label="breadcrumb" class="sticky-top">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="{{ url_for('auth.user_management') }}">User Management</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Register new user</li>
+			<li class="ml-auto"><button class="btn btn-primary btn-fixed " id="gotopButton" onclick="gotop();">top</button></li>
+		</ol>
+	</nav>
+	<script>
+    	$("#gotopButton").hide();
+    	var startScroll = $(window).scrollTop();
+    	var lastScroll = 0;
+    	$(window).scroll(function(event){
+    		if ($(this).scrollTop() <= startScroll + 200) $("#gotopButton").fadeOut('slow');
+    		else $("#gotopButton").fadeIn('slow');
+    	});
+
+		function gotop(){
+			$("body, html").animate({ scrollTop: 0 }, 800);
+			return false;
+		}
+	</script>
+    <hr>
+	{% for error in form.username.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}
+	{% for error in form.email.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}
+	{% for error in form.password.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}
+	{% for error in form.password2.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}
+	<div class="row">
+		<div class="col-md-4">
+		{{ wtf.quick_form(form) }}
+		</div>
+	</div>
+{% endblock %}
