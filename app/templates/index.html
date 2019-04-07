@@ -1,6 +1,45 @@
 {% extends "base.html" %}
 
 {% block c %}
+<div class="row">
+    <div class="col-12 col-md-6 col-lg-4 mb-1">
+        <div class="card">
+            <img class="card-img-top ml-auto mr-auto mt-1" src="{{ url_for('static', filename='logo.svg') }}" alt="logo reparaturcafe"
+                style="width:150px!important; height:150px;">
+            <div class="card-body">
+                <h5 class="card-title">Komm vorbei.</h5>
+                <p class="card-text">Jeden <strong>Mittwoch</strong> ist die Werkstatt in der <strong>Landgrafenstr. 50</strong> von <strong>13:00 - 19:00</strong> geöffnet.</p>
+                <p class="card-text">Zusammen bei einer Tasse Kaffee schauen wir uns die defekten Geräte an und entscheiden dann ob sich eine Reparatur lohnt.</p>
+                <p class="card-text">Kann das Gerät sofort repariert werden geben wir Dir gene Hilfestellung und wertvolle Tipps, bei denen jeder bestimmt noch etwas lernen kann.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mb-1">
+        <div class="card">
+            <img class="card-img-top ml-auto mr-auto mt-1" src="{{ url_for('static', filename='Klemmbrett.svg') }}" alt="logo reparaturcafe"
+                style="width:150px!important; height:150px;">
+            <div class="card-body">
+                <h5 class="card-title">Mach den Online Check.</h5>
+                <p class="card-text">Mit unserem online Forumlar kannst Du vorab eine Anfrage an uns senden und erhälst zeitnah eine Rückmeldung.</p>
+                <p class="card-text">So weißt Du dann ob wir jemanden haben, der sich mit Deinem defekten Gerät auskennt und ob sich eine Reparatur lohnt.</p>
+                <a href="" class="btn btn-fixed">Online Check</a>
+                <p class="card-text"></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 mb-1">
+        <div class="card">
+            <img class="card-img-top ml-auto mr-auto mt-1" src="{{ url_for('static', filename='Awo-logo-08.svg') }}" alt="logo reparaturcafe"
+                style="height:150px!important; width:175px!important;">
+            <div class="card-body">
+                <h5 class="card-title">Ehrenamtlich für die AWO.</h5>
+                <p class="card-text">Wir von Reparaturcafe reparieren defekte Geräte ehrenamtlich in den Räumen der AWO Oberlar.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 {% endblock %}

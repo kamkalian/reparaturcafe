@@ -6,8 +6,8 @@
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item active" aria-current="page">User Management</li>
 			<div class="ml-auto">
-				<button class="btn btn-primary btn-fixed ml-auto" id="gotopButton" onclick="gotop();">top</button>
-				<a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-fixed ml-auto">+</a>
+				<button class="btn btn-fixed ml-auto" id="gotopButton" onclick="gotop();">top</button>
+				<a href="{{ url_for('auth.register') }}" class="btn btn-fixed ml-auto">+</a>
 			</div>
 		</ol>
 	</nav>
@@ -51,9 +51,9 @@
 		</thead>
 		<tbody>
 			{% for user in user_list %}
-				<tr>
+				<tr class="">
 					<td><img class="avatar_ico" src="{{ user.avatar(50) }}"></td>
-					<th scope="row"><a href="{{ url_for('auth.user', username=user.username) }}" class="btn btn-secondary btn-fixed"><small>{{ user.username }}</small></a></th>
+					<th scope=""><a href="{{ url_for('auth.user', username=user.username) }}" class="btn btn-fixed">{{ user.username }}</a></th>
 					<td class="">{{ user.lastname }}, {{ user.firstname }}</td>
 					<td class="">{{ user.email }}</td>
 					<td class="">

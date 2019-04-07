@@ -2,66 +2,71 @@
 
 
 {% block title %}
-    {% if title %}{{ title }} - Microblog{% else %}Welcome to Microblog{% endif %}
+    {% if title %}{{ title }} - Reparaturcafe{% else %}Reparaturcafe{% endif %}
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/jquery-ui.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
 {% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ url_for('main.index') }}">Reparaturcafe</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+    <a class="navbar-brand" href="{{ url_for('main.index') }}">
+		<img src="{{ url_for('static', filename='logo.svg') }}" width="50px" height="50px">
+	</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
+
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('main.index') }}">Home <span class="sr-only">home</span></a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-fixed mb-1">Startseite</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                {% if current_user.is_anonymous %}
+                    <a class="btn btn-fixed" href="{{ url_for('auth.login') }}">Login</a>
+                {% else %}
+                    <a class="nav-link dropdown-toggle btn btn-fixed" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="avatar_ico mr-2" src="{{ current_user.avatar(30) }}">{{ current_user.username }}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                        <a href="{{ url_for('auth.user', username=current_user.username) }}" class="dropdown-item">Profile</a>
+                        <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                {% endif %}
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Datenschutzerklärung</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Impressum</a>
-            </li>
-            <!--
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>-->
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
+        </ul>
+    </div>
+
 </nav>
 {% endblock %}
 
 
-
 {% block content %}
-    {% with messages = get_flashed_messages(with_categories=true) %}
+
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <div class="container p-5">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
+            <div class="alert alert-{{ category }}">{{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             {% endfor %}
         {% endif %}
-    {% endwith %}
+        {% endwith %}
 
-    <div class="container p-5">
         <h1>{{ title }}</h1>
     {% block c %}
         {% with messages = get_flashed_messages() %}
@@ -76,4 +81,12 @@
         {% block app_content %}{% endblock %}
     {% endblock %}
     </div>
+    <hr>
+    <div class="row m-0">
+        <div class="ml-auto mr-auto">
+            <a class="" href="#">Datenschutzerklärung</a> |
+            <a class="" href="#">Impressum</a>
+        </div>
+    </div>
+
 {% endblock %}

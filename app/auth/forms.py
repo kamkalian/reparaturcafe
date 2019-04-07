@@ -6,7 +6,7 @@ from app.models import User
 class LoginForm(FlaskForm):
     username = StringField('Username')
     password = PasswordField('Password')
-    submit = SubmitField(u'Sign in')
+    submit = SubmitField(u'login')
 
 
 class RegistrationForm(FlaskForm):
@@ -32,10 +32,10 @@ class RegistrationForm(FlaskForm):
 
 class UserEditForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    lastname = StringField('Last name')
-    firstname = StringField('First name')
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Save')
+    lastname = StringField('Nachname')
+    firstname = StringField('Vorname')
+    email = StringField('E-Mail Adresse', validators=[DataRequired(), Email()])
+    submit = SubmitField('Speichern')
 
     # def validate_username(self, username):
     #     user = User.query.filter_by(username=username.data).first()

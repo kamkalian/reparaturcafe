@@ -24,7 +24,6 @@ class User(UserMixin, db.Model):
     firstname = db.Column(db.String(50), index=True)
     password_hash = db.Column(db.String(128))
     role = db.Column(db.String(64), db.ForeignKey('role.name'))
-    benchmarks = db.relationship('Benchmark', backref='user')
 
     def __repr__(self):
         return '<User {}>'.format(self.email)
