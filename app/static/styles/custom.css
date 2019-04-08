@@ -3,8 +3,10 @@
 	line-height: 1;
 	font-family: monospace;
 	background: #00cdbb;
-	color: #6f6f6f;
+	color: #3f3f3f;
     font-weight: bold;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .btn-fixed:hover{

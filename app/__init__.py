@@ -27,6 +27,9 @@ def create_app(config_class=Config):
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
+    from app.online_check import bp as online_check_bp
+    app.register_blueprint(online_check_bp)
+
     return app
 
 

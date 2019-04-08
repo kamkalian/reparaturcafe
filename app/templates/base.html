@@ -53,7 +53,7 @@
 
     <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-    <div class="container p-5">
+    <div class="container p-3">
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -67,7 +67,7 @@
         {% endif %}
         {% endwith %}
 
-        <h1>{{ title }}</h1>
+        <h1 class="pb-2">{{ title }}</h1>
     {% block c %}
         {% with messages = get_flashed_messages() %}
         {% if messages %}

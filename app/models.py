@@ -37,3 +37,13 @@ class User(UserMixin, db.Model):
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+
+
+class Category(db.Model):
+    name = db.Column(db.String(64), primary_key=True)
+    samples = db.Column(db.String(64))
+
+
+
+class Device(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
