@@ -21,12 +21,17 @@ def create_app(config_class=Config):
     login.init_app(app)
     login.login_view = 'auth.login'
 
+    from app.online_check import bp as online_check_bp
+    app.register_blueprint(online_check_bp)
+
+    
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
 
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
+    
     return app
 
 
