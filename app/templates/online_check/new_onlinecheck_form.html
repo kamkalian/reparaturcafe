@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block c %}
+    <hr>
+    <form action="{{ url_for('online_check.start_new_online_check') }}" method="POST" novalidate>
+	{{ form.hidden_tag() }}
+
+	<div class="form-row">
+		<div class="col-md-12 p-4">
+			Bitte versuche so ausführlich wie möglich das Formular auszufüllen.
+		</div>
+		<div class="col-md-6 border-right p-4">
+			<h3>Gerätedaten</h3>
+			<div class="form-group">
+				{{ form.device_name.label }}
+				{{ form.device_name(class_='form-control') }}
+
+			</div>
+			<div class="form-group">
+				{{ form.device_issue.label }}
+				{{ form.device_issue(class_='form-control') }}
+				<small class="form-text">
+					Hilfreich ist z.B. folgende Fragen zu beantworten:<br>
+					<ul>
+						<li>
+							Was funktioniert nicht mehr?
+						<li>
+							Wurde das Gerät beschädigt? (z.B. Sturz, Wasser, Überspannung)
+						</li>
+						<li>
+							Tritt der Fehler immer oder nur gelegentlich auf?
+						</li>
+					</ul>
+				</small>
+
+			</div>
+			<div class="form-group">
+				{{ form.device_opened.label }}
+				{{ form.device_opened(class_='form-control') }}
+			</div>
+			<div class="form-group">
+				{{ form.device_manual.label }}
+				{{ form.device_manual(class_='form-control') }}
+			</div>
+
+		</div>
+		<div class="col-md-6 p-4">
+			<h3>Kontaktdaten</h3>	
+			<div class="form-group">
+				{{ form.customer_name.label }}
+				{{ form.customer_name(size=32, class_='form-control') }}
+			</div>
+			<div class="form-group">
+				{{ form.customer_email.label }}
+				{{ form.customer_email(size=32, class_='form-control') }}
+			</div>
+			<div class="form-group">
+				{{ form.customer_tel.label }}
+				{{ form.customer_tel(size=32, class_='form-control') }}
+			</div>
+		</div>
+		<div class="col-md-12 p-4">
+			<p>Mit dem Abschicken des Formulars akzeptierst Du unsere Datenschutzerklärung.</p>
+			<p>{{ form.submit }}</p>
+		</div>
+	</div>
+	</form>
+{% endblock %}

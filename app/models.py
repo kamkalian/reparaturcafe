@@ -39,11 +39,14 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
 
-class Category(db.Model):
-    name = db.Column(db.String(64), primary_key=True)
-    samples = db.Column(db.String(64))
-
-
-
-class Device(db.Model):
+class Onlinecheck(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    device_name = db.Column(db.String(128))
+    device_issue = db.Column(db.String(1000))
+    device_opened = db.Column(db.Boolean)
+    device_manual = db.Column(db.Boolean)
+    customer_name = db.Column(db.String(128))
+    customer_email = db.Column(db.String(128))
+    customer_tel = db.Column(db.String(128))
+
+
