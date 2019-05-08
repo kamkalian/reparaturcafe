@@ -1,0 +1,19 @@
+
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block c %}
+    <hr>
+    <table>
+        {% for oc in oc_list %}
+        <tr>
+            <td>{{ oc.id }}</td>
+            <td><a href="{{ url_for('online_check.show', oc_id=oc.id) }}" class="btn btn-fixed">{{ oc.device_name }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+
+
+{% endblock %}

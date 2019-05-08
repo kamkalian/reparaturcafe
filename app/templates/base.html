@@ -29,6 +29,12 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <a href="{{ url_for('main.index') }}" class="btn btn-fixed mb-1">Startseite</a>
+        {% if not current_user.is_anonymous %}
+            <a href="{{ url_for('online_check.overview') }}" class="btn btn-fixed mb-1 ml-1">Übersicht</a>
+        {% endif %}
+        {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('auth.user_management') }}" class="btn btn-fixed mb-1 ml-1">Usermanagement</a>
+        {% endif %}
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 {% if current_user.is_anonymous %}
