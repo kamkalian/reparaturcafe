@@ -12,10 +12,11 @@ from app.auth import bp
 from app.models import User
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Role
-from app.auth.forms import LoginForm, RegistrationForm, UserEditForm
+from app.auth.forms import LoginForm, RegistrationForm, UserEditForm, ResetPasswordRequestForm
 from werkzeug.urls import url_parse
 from flask_login import login_required
 import json
+from app.auth.email import send_password_reset_email
 
 
 @bp.route('/user/<username>')
@@ -117,3 +118,18 @@ def change_user_role():
     info_state = 'success'
 
     return jsonify({'info_msg': info_msg, 'info_state': info_state})
+
+
+@bp.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Wir haben Dir eine E-Mail geschickt. Bitte überprüfe Dein Postfach und folge den Anweisungen in der E-Mail.')
+        return redirect(url_for('login'))
+    return render_template('reset_password_request.html',
+                           title='Passwort zurücksetzen', form=form)
