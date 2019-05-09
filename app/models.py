@@ -6,6 +6,7 @@ from flask import current_app
 from hashlib import md5
 from time import time
 import jwt
+from datetime import datetime
 
 
 @login.user_loader
@@ -57,6 +58,7 @@ class User(UserMixin, db.Model):
 
 
 class Onlinecheck(db.Model):
+    __tablename__ = 'online_check'
     id = db.Column(db.Integer, primary_key=True)
     device_name = db.Column(db.String(128))
     device_issue = db.Column(db.String(1000))
@@ -65,5 +67,13 @@ class Onlinecheck(db.Model):
     customer_name = db.Column(db.String(128))
     customer_email = db.Column(db.String(128))
     customer_tel = db.Column(db.String(128))
+    logs = db.relationship('Log', backref='online_check')
 
+
+class Log(db.Model):
+    __tablename__ = 'log'
+    id = db.Column(db.Integer, primary_key=True)
+    online_check_id = db.Column(db.Integer, db.ForeignKey('online_check.id'))
+    caption = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
