@@ -7,7 +7,7 @@ from app.forms import LoginForm
 @bp.route('/index')
 def index():
     user = {'username': 'Miguel'}
-    return render_template('index.html', title='Reparaturcafe AWO Oberlar', user=user)
+    return render_template('index.html', title='Reparaturcafe Testseite', user=user)
 
 
 @bp.route('/login', methods=['GET', 'POST'])
