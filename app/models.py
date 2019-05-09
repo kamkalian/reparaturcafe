@@ -77,3 +77,9 @@ class Log(db.Model):
     caption = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
+
+class FFPing(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    response_time = db.Column(db.Float())
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
