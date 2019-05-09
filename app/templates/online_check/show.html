@@ -4,6 +4,37 @@
 
 {% block c %}
     <hr>
-
+    <div class="row">
+        <div class="col-6">
+            <div>
+                <h3>Gerätedaten</h3>
+                {{ oc.device_issue }}
+            </div>
+            <hr>
+            <div class="">
+                <h3>Historie</h3>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="">
+                <h3>Kontaktdaten</h3>
+                <div class="row">
+                    <div class="col-3">Name</div>
+                    <div class="col-1">:</div>
+                    <div class="col-8">{{ oc.customer_name }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3">E-Mail</div>
+                    <div class="col-1">:</div>
+                    <div class="col-8">{{ oc.customer_email }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-3">Tel.:</div>
+                    <div class="col-1">:</div>
+                    <div class="col-8">{{ oc.customer_tel }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
