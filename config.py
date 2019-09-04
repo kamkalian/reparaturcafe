@@ -50,7 +50,7 @@ class Config(object):
     USER_AFTER_CONFIRM_ENDPOINT = 'main.index'
 
     USER_FORGOT_PASSWORD_URL = '/auth/reset-password'
-    USER_FORGOT_PASSWORD_TEMPLATE = 'reset_password.html'
+    # USER_FORGOT_PASSWORD_TEMPLATE = 'reset_password.html'
     USER_AFTER_FORGOT_PASSWORD_ENDPOINT = 'user.login'
 
     USER_LOGIN_URL = '/auth/login'
