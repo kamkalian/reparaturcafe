@@ -9,14 +9,10 @@ Created on Mon Sep  3 08:26:34 2018
 from flask import render_template, url_for, redirect, request, flash, jsonify
 from app import db
 from app.auth import bp
-from app.models import User
-from flask_login import current_user, login_user, logout_user
-from app.models import User, Role
-from app.auth.forms import LoginForm, RegistrationForm, UserEditForm, ResetPasswordRequestForm
-from werkzeug.urls import url_parse
-from flask_login import login_required
 import json
-from app.auth.email import send_password_reset_email
+from flask_user import login_required, current_user
+from app.models import User, Role
+from app.auth.forms import UserEditForm
 
 
 @bp.route('/user/<username>')
@@ -51,56 +47,18 @@ def user_edit(username):
     return render_template('auth/user_edit.html', title=username, form=form)
 
 
-@bp.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password', 'danger')
-            return redirect(url_for('auth.login'))
-        login_user(user)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('main.index')
-        return redirect(next_page)
-    return render_template('auth/login.html', title='Login', form=form)
-
-
-@bp.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('main.index'))
-
-@bp.route('/register', methods=['GET', 'POST'])
-@login_required
-def register():
-    if current_user.role == 'admin':
-        form = RegistrationForm()
-        if form.validate_on_submit():
-            user = User(username=form.username.data, email=form.email.data)
-            user.set_password(form.password.data)
-            db.session.add(user)
-            db.session.commit()
-            flash('New User registered.', 'success')
-            return redirect(url_for('auth.login'))
-        return render_template('auth/register.html', title='Register', form=form)
-    else:
-        return redirect(url_for('main.index'))
-
-
 @bp.route('/user_management', methods=['GET', 'POST'])
 @login_required
 def user_management():
     if current_user.role == 'admin':
         user_list = User.query.all()
         roles = Role.query.all()
-        return render_template('auth/user_management.html', title='User Management', user_list=user_list, roles=roles)
+        return render_template('auth/user_management.html',
+                               title='User Management',
+                               user_list=user_list, roles=roles)
     else:
         return redirect(url_for('main.index'))
+
 
 @bp.route('/change_user_role', methods=['POST'])
 def change_user_role():
@@ -118,18 +76,3 @@ def change_user_role():
     info_state = 'success'
 
     return jsonify({'info_msg': info_msg, 'info_state': info_state})
-
-
-@bp.route('/reset_password_request', methods=['GET', 'POST'])
-def reset_password_request():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = ResetPasswordRequestForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            send_password_reset_email(user)
-        flash('Wir haben Dir eine E-Mail geschickt. Bitte überprüfe Dein Postfach und folge den Anweisungen in der E-Mail.')
-        return redirect(url_for('login'))
-    return render_template('reset_password_request.html',
-                           title='Passwort zurücksetzen', form=form)

@@ -38,13 +38,13 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 {% if current_user.is_anonymous %}
-                    <a class="btn btn-fixed" href="{{ url_for('auth.login') }}">Login</a>
+                    <a class="btn btn-fixed" href="{{ url_for('user.login') }}">Login</a>
                 {% else %}
                     <a class="nav-link dropdown-toggle btn btn-fixed" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="avatar_ico mr-2" src="{{ current_user.avatar(30) }}">{{ current_user.username }}</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                         <a href="{{ url_for('auth.user', username=current_user.username) }}" class="dropdown-item">Profile</a>
-                        <a href="{{ url_for('auth.logout') }}" class="dropdown-item">Logout</a>
+                        <a href="{{ url_for('user.logout') }}" class="dropdown-item">Logout</a>
                     </div>
                 {% endif %}
             </li>
