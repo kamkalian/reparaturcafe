@@ -5,6 +5,7 @@ from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
 from app import db
 
+
 @bp.route('/start_new_online_check', methods=['GET', 'POST'])
 def start_new_online_check():
     form = NewOnlineCheckForm()
@@ -25,15 +26,19 @@ def start_new_online_check():
         db.session.commit()
         flash('Neuer Online Check wurde erstellt.', 'success')
         return redirect(url_for('main.index'))
-    return render_template('online_check/new_online_check_form.html', title='Online Check erstellen', form=form)
+    return render_template('online_check/new_online_check_form.html',
+                           title='Online Check erstellen', form=form)
+
 
 @bp.route('/overview', methods=['GET', 'POST'])
 def overview():
     oc_list = Onlinecheck.query.all()
-    return render_template('online_check/overview.html', title='Übersicht', oc_list=oc_list)
+    return render_template('online_check/overview.html', title='Übersicht',
+                           oc_list=oc_list)
 
 
 @bp.route('/show/<oc_id>', methods=['GET', 'POST'])
 def show(oc_id):
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
-    return render_template('online_check/show.html', title=oc.device_name, oc=oc)
+    return render_template('online_check/show.html',
+                           title=oc.device_name, oc=oc)
