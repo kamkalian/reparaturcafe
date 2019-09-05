@@ -22,6 +22,8 @@ def start_new_online_check():
             device_issue=form['device_issue'],
             customer_name=form['customer_name'],
             customer_email=form['customer_email'],
+            customer_tel=form['customer_tel'],
+            supervisor_id=supervisor_id)
         db.session.add(oc)
         db.session.commit()
 
