@@ -1,20 +1,19 @@
-
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block c %}
-    <hr>
-    <table class="table">
-        {% for oc in oc_list %}
-        <tr>
-            <td class="col-1"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
-            <td class="col-1">{{ oc.id }}</td>
-            <td><a href="{{ url_for('online_check.show', oc_id=oc.id) }}" class="btn btn-fixed">{{ oc.device_name }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-
-
-
+<hr>
+<table class="table">
+    {% for oc in oc_list %}
+    <tr>
+        <td class="col-1"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
+        <td class="col-1">{{ oc.id }}</td>
+        <td>
+            <a href="{{ url_for('online_check.show', oc_id=oc.id) }}" class="btn btn-fixed">{{ oc.device_name }}</a>
+        </td>
+        <td>{{ oc.user.username }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}
