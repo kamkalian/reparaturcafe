@@ -4,6 +4,7 @@ from flask import render_template, redirect, flash, url_for, request
 from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
 from app import db
+from flask_user import current_user
 
 
 @bp.route('/start_new_online_check', methods=['GET', 'POST'])
@@ -11,13 +12,16 @@ def start_new_online_check():
     form = NewOnlineCheckForm()
     if form.validate_on_submit():
         form = request.form.to_dict()
-        print(form)
+        print(current_user)
+        if current_user.is_authenticated:
+            supervisor_id = current_user.id
+        else:
+            supervisor_id = None
         oc = Onlinecheck(
             device_name=form['device_name'],
             device_issue=form['device_issue'],
             customer_name=form['customer_name'],
             customer_email=form['customer_email'],
-            customer_tel=form['customer_tel'])
         db.session.add(oc)
         db.session.commit()
 
