@@ -65,8 +65,6 @@ class Onlinecheck(db.Model):
     customer_tel = db.Column(db.String(128))
     supervisor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     logs = db.relationship('Log', backref='online_check')
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    timestamp_income = db.Column(db.DateTime, index=True)
 
 
 class Log(db.Model):
