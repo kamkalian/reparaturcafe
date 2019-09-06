@@ -26,6 +26,7 @@ class User(UserMixin, db.Model):
     roles = db.relationship('Role', secondary='user_roles')
 
     online_checks = db.relationship('Onlinecheck', backref='user')
+    logs = db.relationship('Log', backref='user')
 
     def __repr__(self):
         return '<User {}>'.format(self.email)
