@@ -26,7 +26,9 @@ def start_new_online_check():
         db.session.add(oc)
         db.session.commit()
 
-        log = Log(caption='Onlinecheck gestartet', online_check_id=oc.id)
+        log = Log(caption='Onlinecheck gestartet',
+                  online_check_id=oc.id,
+                  user_id=supervisor_id)
         db.session.add(log)
         db.session.commit()
         flash('Neuer Online Check wurde erstellt.', 'success')
