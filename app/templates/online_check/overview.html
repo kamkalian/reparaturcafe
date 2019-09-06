@@ -8,7 +8,7 @@
     <tr>
         <td class="col-1"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
         <td class="col-10">
-            <a href="{{ url_for('online_check.show', oc_id=oc.id) }}" class="btn btn-fixed">{{ oc.device_name }}</a>
+            <a href="{{ url_for('online_check.onlinecheck', oc_id=oc.id) }}" class="btn btn-fixed">{{ oc.device_name }}</a>
         </td>
         <td class="col-1">ID: {{ oc.id }}</td>
         <td>{{ oc.user.username }}</td>

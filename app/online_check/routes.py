@@ -44,8 +44,8 @@ def overview():
                            oc_list=oc_list)
 
 
-@bp.route('/show/<oc_id>', methods=['GET', 'POST'])
-def show(oc_id):
+@bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
+def onlinecheck(oc_id):
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
-    return render_template('online_check/show.html',
+    return render_template('online_check/onlinecheck.html',
                            title=oc.device_name, oc=oc)
