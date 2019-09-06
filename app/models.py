@@ -73,3 +73,4 @@ class Log(db.Model):
     online_check_id = db.Column(db.Integer, db.ForeignKey('online_check.id'))
     caption = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
