@@ -76,3 +76,4 @@ class Log(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     state = db.Column(db.String(255))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    type = db.Column(db.String(255))
