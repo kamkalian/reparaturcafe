@@ -12,7 +12,6 @@ def start_new_online_check():
     form = NewOnlineCheckForm()
     if form.validate_on_submit():
         form = request.form.to_dict()
-        print(current_user)
         if current_user.is_authenticated:
             supervisor_id = current_user.id
         else:
