@@ -48,6 +48,7 @@ def overview():
 
 
 @bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
+@login_required
 def onlinecheck(oc_id):
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
     logs = Log.query.filter_by(
