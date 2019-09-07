@@ -10,6 +10,8 @@
         <td class="col-10">
             <a href="{{ url_for('online_check.onlinecheck', oc_id=oc.id) }}" class="btn btn-fixed">{{ oc.device_name }}</a>
         </td>
+        <td>{{ oc.customer_name }}</td>
+        <td>{{ oc_list[0].logs[0].timestamp }}</td>
         <td class="col-1">ID: {{ oc.id }}</td>
         <td>{{ oc.user.username }}</td>
     </tr>
