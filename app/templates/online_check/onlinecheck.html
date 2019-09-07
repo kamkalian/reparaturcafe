@@ -1,53 +1,55 @@
-
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block c %}
-    <hr>
-    <div class="row">
-        <div class="col-6">
-            <div>
-                <h3>Gerätedaten</h3>
-                {{ oc.device_issue }}
-            </div>
-            <hr>
-            <div class="">
-                <h3>Historie</h3>
-                {% for log in oc.logs %}
-                    {% if log.type == 'action' %}
-                    <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-8 pl-2 border-left">
-                            <img class="avatar_ico mr-2" src="{{ current_user.avatar(20) }}">
-                            {{ log.user.username }}: {{ log.caption }}
-                        </div>
-                        <div class="col-2"><small>{{ log.timestamp }}</small></div>
-
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+<hr>
+<div class="row">
+    <div class="col">
+        <div>
+            <h3>Gerätedaten</h3>
+            {{ oc.device_issue }}
         </div>
-        <div class="col-6">
-            <div class="">
-                <h3>Kontaktdaten</h3>
-                <div class="row">
-                    <div class="col-3">Name</div>
-                    <div class="col-1">:</div>
-                    <div class="col-8">{{ oc.customer_name }}</div>
+        <hr>
+        <div>
+            <h3>Historie</h3>
+            {% for log in logs %}
+            {% if log.type == 'action' %}
+            <div class="container mt-2 align-items-start">
+                <div class="row bg-light p-1 border-left ml-1 rounded align-items-center">
+
+                    <div class="mr-1 p-1 text-nowrap" style="line-height: 1;">
+                        <img class="avatar_ico mr-1 rounded" src="{{ current_user.avatar(21) }}">
+                        {{ current_user.username }}:
+                    </div>
+
+                    <div class="p-1" style="line-height: 1; font-weight: bold;">{{ log.caption }}</div>
+                    <div class="col text-right p-1" style="line-height: 1;">
+                        <small>{{ log.timestamp }}</small></div>
                 </div>
-                <div class="row">
-                    <div class="col-3">E-Mail</div>
-                    <div class="col-1">:</div>
-                    <div class="col-8">{{ oc.customer_email }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-3">Tel.:</div>
-                    <div class="col-1">:</div>
-                    <div class="col-8">{{ oc.customer_tel }}</div>
-                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col">
+        <div>
+            <h3>Kontaktdaten</h3>
+            <div class="row">
+                <div class="col-3">Name</div>
+                <div class="col-1">:</div>
+                <div class="col-8">{{ oc.customer_name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-3">E-Mail</div>
+                <div class="col-1">:</div>
+                <div class="col-8">{{ oc.customer_email }}</div>
+            </div>
+            <div class="row">
+                <div class="col-3">Tel.:</div>
+                <div class="col-1">:</div>
+                <div class="col-8">{{ oc.customer_tel }}</div>
             </div>
         </div>
     </div>
-
+</div>
 {% endblock %}
