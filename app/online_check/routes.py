@@ -43,6 +43,14 @@ def start_new_online_check():
 @login_required
 def overview():
     oc_list = Onlinecheck.query.all()
+
+    # letzten Status ermitteln
+    for oc in oc_list:
+        state = None
+        for log in oc.logs:
+            if log.type == 'action':
+                state = log.caption
+        setattr(oc, 'state', state)
     return render_template('online_check/overview.html', title='Übersicht',
                            oc_list=oc_list)
 
