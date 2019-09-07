@@ -49,5 +49,7 @@ def overview():
 @bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
 def onlinecheck(oc_id):
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
+    logs = Log.query.filter_by(
+        online_check_id=oc.id).order_by(Log.timestamp).all()
     return render_template('online_check/onlinecheck.html',
-                           title=oc.device_name, oc=oc)
+                           title=oc.device_name, oc=oc, logs=logs)
