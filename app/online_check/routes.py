@@ -4,7 +4,7 @@ from flask import render_template, redirect, flash, url_for, request
 from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
 from app import db
-from flask_user import current_user
+from flask_user import current_user, login_required
 
 
 @bp.route('/start_new_online_check', methods=['GET', 'POST'])
@@ -40,6 +40,7 @@ def start_new_online_check():
 
 
 @bp.route('/overview', methods=['GET', 'POST'])
+@login_required
 def overview():
     oc_list = Onlinecheck.query.all()
     return render_template('online_check/overview.html', title='Übersicht',
