@@ -1,4 +1,4 @@
-
+import json
 from app.online_check import bp
 from flask import render_template, redirect, flash, url_for, request, session
 from app.online_check.forms import NewOnlineCheckForm
@@ -42,7 +42,6 @@ def start_new_online_check():
 @bp.route('/overview', methods=['GET', 'POST'])
 @login_required
 def overview():
-
     light_sess = session.get('light')
     light_get = request.args.get('light')
     light = ''
@@ -79,3 +78,39 @@ def onlinecheck(oc_id):
         online_check_id=oc.id).order_by(Log.timestamp).all()
     return render_template('online_check/onlinecheck.html',
                            title=oc.device_name, oc=oc, logs=logs)
+
+
+@bp.route('/get_new_ocs', methods=['GET', 'POST'])
+@login_required
+def get_new_ocs():
+    oc_id_list = json.loads(request.form.get('oc_id_list'))
+    oc_list = Onlinecheck.query.all()
+
+    for oc in oc_list:
+
+        if oc.id not in oc_id_list:
+            oc = Onlinecheck.query.filter_by(id=oc.id).first()
+
+            # letzten Status ermitteln
+            state = None
+            for log in oc.logs:
+                if log.type == 'action':
+                    state = log.caption
+
+            # Supervisor ermitteln
+            supervisor = ''
+            if oc.user:
+                supervisor = oc.user.username
+
+            # Ersten Timestamp ermitteln
+            timestamp = oc.logs[0].timestamp.strftime('%Y-%m-%d %I:%M:%S')
+
+            return {'ok': 1,
+                    'timestamp': timestamp,
+                    'device_name': oc.device_name,
+                    'oc_id': oc.id,
+                    'customer_name': oc.customer_name,
+                    'supervisor': supervisor,
+                    'state': state}
+
+    return {'ok': 0}
