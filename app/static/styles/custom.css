@@ -17,6 +17,17 @@
 	font-family: monospace;
 }
 
+@keyframes example {
+  0%   {background-color: #72e5db; }
+  100% {background-color:white;}
+}
+
+.new_row {
+    position: relative;
+  animation-name: example;
+  animation-duration: 30s;
+}
+
 .ui-slider-range{
 	background-color: #0f0!important;
 }
