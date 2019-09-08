@@ -14,9 +14,14 @@
 <table class="table">
     {% for oc in oc_list %}
     <tr>
+        <td class="col-auto"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
+        <td>{{ oc.logs[0].timestamp }}</td>
         <td class="col-10">
+            <a href="{{ url_for('online_check.onlinecheck', oc_id=oc.id) }}"
+                class="btn btn-fixed">{{ oc.device_name }}</a>
         </td>
         <td class="col-1">ID: {{ oc.id }}</td>
+        <td>{{ oc.customer_name }}</td>
         <td>{{ oc.user.username }}</td>
         <td><b>{{ oc.state }}</b></td>
     </tr>
