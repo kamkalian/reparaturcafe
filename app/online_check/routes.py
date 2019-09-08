@@ -56,7 +56,7 @@ def overview():
         if light_sess == '_light':
             light = '_light'
 
-    oc_list = Onlinecheck.query.all()
+    oc_list = Onlinecheck.query.order_by(Onlinecheck.id.desc()).all()
 
     # letzten Status ermitteln
     for oc in oc_list:
