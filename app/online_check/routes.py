@@ -1,6 +1,6 @@
 
 from app.online_check import bp
-from flask import render_template, redirect, flash, url_for, request
+from flask import render_template, redirect, flash, url_for, request, session
 from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
 from app import db
@@ -42,6 +42,21 @@ def start_new_online_check():
 @bp.route('/overview', methods=['GET', 'POST'])
 @login_required
 def overview():
+
+    light_sess = session.get('light')
+    light_get = request.args.get('light')
+    light = ''
+
+    if light_get == 'go':
+        light = '_light'
+        session['light'] = '_light'
+    if light_get == 'back':
+        light = ''
+        session['light'] = ''
+    if light_get is None:
+        if light_sess == '_light':
+            light = '_light'
+
     oc_list = Onlinecheck.query.all()
 
     # letzten Status ermitteln
@@ -51,8 +66,9 @@ def overview():
             if log.type == 'action':
                 state = log.caption
         setattr(oc, 'state', state)
+
     return render_template('online_check/overview.html', title='Übersicht',
-                           oc_list=oc_list)
+                           oc_list=oc_list, light=light)
 
 
 @bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
