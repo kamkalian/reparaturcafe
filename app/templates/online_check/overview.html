@@ -3,6 +3,7 @@
 
 {% block c %}
 <div class="row m-0 mb-2">
+    <div id="fail_indicator" class="ml-auto"></div>
     {% if light == '_light' %}
     <a href="{{ url_for('online_check.overview', light='back') }}" class="btn btn-fixed ml-auto">
         <<</a> {% else %} <a href="{{ url_for('online_check.overview', light='go') }}" class="btn btn-fixed ml-auto">
@@ -11,7 +12,7 @@
     {% endif %}
 </div>
 
-<table class="table">
+<table class="table" id="oc_table">
     {% for oc in oc_list %}
     <tr>
         <td class="col-auto"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
@@ -27,5 +28,35 @@
     </tr>
     {% endfor %}
 </table>
+
+<script>
+    var oc_id_list = [{% for oc in oc_list %}{{ oc.id }},{% endfor %}];
+    timer = setInterval(function () {
+        $("#fail_indicator").text('check');
+        $.post('/get_new_ocs', {oc_id_list: JSON.stringify(oc_id_list)}).done(function (response) {
+            $("#fail_indicator").text('done');
+            oc_id_list.push(response['oc_id']);
+            if(response['ok']=='1'){
+                $("#fail_indicator").text('Neuer Onlinecheck eingegangen.');
+                var html = '<tr class="new_row" id="new_row' + response['oc_id'] + '"><td class="col-auto">';
+                html += '<img src="/static/Klemmbrett.svg" width="50px"></td>';
+                html += '<td>' + response['timestamp'] + '</td>';
+                html += '<td class="col-10">';
+                html += '<a href="/onlinecheck/' + response['oc_id'] + '" class="btn btn-fixed">' + response['device_name'] + '</a>';
+                html += '</td>';
+                html += '<td class="col-1">ID: ' + response['oc_id'] + '</td>';
+                html += '<td>' + response['customer_name'] + '</td>';
+                html += '<td>' + response['supervisor'] + '</td>';
+                html += '<td><b>' + response['state'] + '</b></td></tr>';
+
+                $('#oc_table > tbody > tr').eq(0).before(html);
+            }else{
+                $("#fail_indicator").text('');
+            }
+        }).fail(function () {
+            $("#fail_indicator").text("ups :(");
+        });
+    }, 10000);
+</script>
 
 {% endblock %}
