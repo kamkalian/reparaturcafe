@@ -24,14 +24,18 @@
         <td class="col-1">ID: {{ oc.id }}</td>
         <td>
             <div class="text-nowrap align-items-center">
+                {% if oc.customer_name %}
                 <img src="{{ url_for('static', filename='customer.svg') }}" width="30px" alt="Kunde" title="Kunde">:
                 {{ oc.customer_name }}
+                {% endif %}
             </div>
         </td>
         <td>
             <div class="text-nowrap align-items-center">
+                {% if oc.user.username %}
                 <img src="{{ url_for('static', filename='supervisor.svg') }}" width="30px" alt="Supervisor" title="Supervisor">:
                 {{ oc.user.username }}
+                {% endif %}
             </div>
         </td>
         <td><b>{{ oc.state }}</b></td>
