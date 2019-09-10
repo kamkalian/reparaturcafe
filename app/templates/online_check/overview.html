@@ -22,8 +22,18 @@
                 class="btn btn-fixed">{{ oc.device_name }}</a>
         </td>
         <td class="col-1">ID: {{ oc.id }}</td>
-        <td>{{ oc.customer_name }}</td>
-        <td>{{ oc.user.username }}</td>
+        <td>
+            <div class="text-nowrap align-items-center">
+                <img src="{{ url_for('static', filename='customer.svg') }}" width="30px" alt="Kunde" title="Kunde">:
+                {{ oc.customer_name }}
+            </div>
+        </td>
+        <td>
+            <div class="text-nowrap align-items-center">
+                <img src="{{ url_for('static', filename='supervisor.svg') }}" width="30px" alt="Supervisor" title="Supervisor">:
+                {{ oc.user.username }}
+            </div>
+        </td>
         <td><b>{{ oc.state }}</b></td>
     </tr>
     {% endfor %}
