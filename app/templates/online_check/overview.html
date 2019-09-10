@@ -21,7 +21,7 @@
             <a href="{{ url_for('online_check.onlinecheck', oc_id=oc.id) }}"
                 class="btn btn-fixed">{{ oc.device_name }}</a>
         </td>
-        <td class="col-1">ID: {{ oc.id }}</td>
+        <td class="col-1"><div class="text-nowrap align-items-center">ID: {{ oc.id }}</div></td>
         <td>
             <div class="text-nowrap align-items-center">
                 {% if oc.customer_name %}
