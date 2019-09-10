@@ -49,7 +49,7 @@
         $("#fail_indicator").text('check');
         $.post('/get_new_ocs', {oc_id_list: JSON.stringify(oc_id_list)}).done(function (response) {
             $("#fail_indicator").text('done');
-            oc_id_list.push(response['oc_id']);
+            oc_id_list.concat(response['oc_id']);
             if(response['ok']=='1'){
                 $("#fail_indicator").text('Neuer Onlinecheck eingegangen.');
                 var html = '<tr class="new_row" id="new_row' + response['oc_id'] + '"><td class="col-auto">';
