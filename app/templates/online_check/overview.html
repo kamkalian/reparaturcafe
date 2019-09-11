@@ -43,6 +43,10 @@
     {% endfor %}
 </table>
 
+<audio autoplay controls id="income_sound">
+  <source src="{{ url_for('static', filename='income.mp3') }}" type="audio/mpeg">
+</audio>
+
 <script>
     var oc_id_list = [{% for oc in oc_list %}{{ oc.id }},{% endfor %}];
     timer = setInterval(function () {
@@ -52,6 +56,7 @@
             oc_id_list.push(response['oc_id']);
             if(response['ok']=='1'){
                 $("#fail_indicator").text('Neuer Onlinecheck eingegangen.');
+                document.getElementById("income_sound").play();
                 var html = '<tr class="new_row" id="new_row' + response['oc_id'] + '"><td class="col-auto">';
                 html += '<img src="/static/Klemmbrett.svg" width="50px"></td>';
                 html += '<td>' + response['timestamp'] + '</td>';
