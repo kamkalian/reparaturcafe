@@ -58,16 +58,19 @@ def overview():
 
     oc_list = Onlinecheck.query.order_by(Onlinecheck.id.asc()).all()
 
-    # letzten Status ermitteln
+    # letzten Status ermitteln und counter für den jeweiligen Status hochzählen
+    c_new = 0
     for oc in oc_list:
         state = None
         for log in oc.logs:
             if log.type == 'action':
                 state = log.caption
         setattr(oc, 'state', state)
+        if state == 'Neu':
+            c_new += 1
 
     return render_template('online_check/overview.html', title='Übersicht',
-                           oc_list=oc_list, light=light)
+                           oc_list=oc_list, light=light, c_new=c_new)
 
 
 @bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
