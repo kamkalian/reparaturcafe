@@ -117,3 +117,22 @@ def get_new_ocs():
                     'state': state}
 
     return {'ok': 0}
+
+
+@bp.route('/get_c_new', methods=['GET', 'POST'])
+@login_required
+def get_c_new():
+    oc_list = Onlinecheck.query.order_by(Onlinecheck.id.asc()).all()
+
+    # letzten Status ermitteln und counter für den jeweiligen Status hochzählen
+    c_new = 0
+    for oc in oc_list:
+        state = None
+        for log in oc.logs:
+            if log.type == 'action':
+                state = log.caption
+        setattr(oc, 'state', state)
+        if state == 'Neu':
+            c_new += 1
+
+    return {'c_new': c_new}

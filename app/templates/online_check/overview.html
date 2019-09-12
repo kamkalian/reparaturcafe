@@ -90,6 +90,10 @@
         }).fail(function () {
             $("#fail_indicator").text("ups :(");
         });
+
+        $.post('/get_c_new').done(function (response) {
+            $("#c_new").text(response['c_new']);
+        });
     }, 10000);
 </script>
 
