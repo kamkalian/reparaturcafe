@@ -2,18 +2,35 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block c %}
+
+
 <div class="row m-0 mb-2">
     <div id="fail_indicator" class="ml-auto"></div>
-    {% if light == '_light' %}
-    <a href="{{ url_for('online_check.overview', light='back') }}" class="btn btn-fixed ml-auto">
-        <<</a> {% else %} <a href="{{ url_for('online_check.overview', light='go') }}" class="btn btn-fixed ml-auto">
-            Vollbild
-    </a>
-    {% endif %}
-</div>
+    <div class="btn-group ml-auto" role="group" aria-label="Basic example">
+        {% if state_filter == 'all' %}
+        <a class="btn btn-fixed disabled" style="background-color:#ff0;" disabled>
+        {% else %}
+        <a class="btn btn-fixed" href="{{ url_for('online_check.overview', state_filter='all') }}">
+        {% endif %}
+            Alle: <span class="badge badge-light" id="c_all">{{ c_all }}</span>
+        </a>
 
-<div class="row m-0">
-    <div class="ml-auto">Neu: <span class="badge badge-light" id="c_new">{{ c_new }}</span></div>
+        {% if state_filter == 'new' %}
+        <a class="btn btn-fixed disabled" style="background-color:#ff0;" disabled>
+        {% else %}
+        <a class="btn btn-fixed" href="{{ url_for('online_check.overview', state_filter='new') }}">
+        {% endif %}
+            Neu: <span class="badge badge-light" id="c_new">{{ c_new }}</span>
+        </a>
+
+        {% if light == '_light' %}
+        <a href="{{ url_for('online_check.overview', light='back') }}" class="btn btn-fixed ml-auto">
+            <<</a> {% else %}
+        <a href="{{ url_for('online_check.overview', light='go') }}" class="btn btn-fixed ml-auto">
+                Vollbild
+        </a>
+        {% endif %}
+    </div>
 </div>
 
 
@@ -30,6 +47,7 @@
         </tr>
     </thead>
     {% for oc in oc_list %}
+    {% if oc.state == state_filter or state_filter == 'all' %}
     <tr>
         <td class="col-auto"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
         <td>{{ oc.logs[0].timestamp }}</td>
@@ -54,8 +72,9 @@
                 {% endif %}
             </div>
         </td>
-        <td><b>{{ oc.state }}</b></td>
+        <td><b>{{ oc.state_caption }}</b></td>
     </tr>
+    {% endif %}
     {% endfor %}
 </table>
 
