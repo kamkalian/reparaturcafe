@@ -26,7 +26,7 @@ def start_new_online_check():
         db.session.add(oc)
         db.session.commit()
 
-        log = Log(caption='Onlinecheck gestartet',
+        log = Log(caption='Neu',
                   online_check_id=oc.id,
                   user_id=supervisor_id,
                   type='action',
