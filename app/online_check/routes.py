@@ -42,10 +42,24 @@ def start_new_online_check():
 @bp.route('/overview', methods=['GET', 'POST'])
 @login_required
 def overview():
+
+    # State-Filter Session Variable
+    state_filter_sess = session.get('state_filter')
+    state_filter_get = request.args.get('state_filter')
+    state_filter = 'all'
+    if state_filter_get == 'all':
+        session['state_filter'] = 'all'
+    if state_filter_get == 'new':
+        state_filter = 'new'
+        session['state_filter'] = 'new'
+    if state_filter_get is None:
+        if state_filter_sess:
+            state_filter = state_filter_sess
+
+    # Vollbildmodus Session Variable
     light_sess = session.get('light')
     light_get = request.args.get('light')
     light = ''
-
     if light_get == 'go':
         light = '_light'
         session['light'] = '_light'
@@ -65,9 +79,9 @@ def overview():
         state = None
         for log in oc.logs:
             if log.type == 'action':
-                state = log.caption
-        setattr(oc, 'state', state)
-        if state == 'Neu':
+                state = log.state
+        setattr(oc, 'state', log.state)
+        setattr(oc, 'state_caption', log.caption)
         c_all += 1
         if state == 'new':
             c_new += 1
@@ -77,6 +91,7 @@ def overview():
                            light=light,
                            c_all=c_all,
                            c_new=c_new,
+                           state_filter=state_filter)
 
 
 @bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
@@ -136,9 +151,7 @@ def get_c_new():
         state = None
         for log in oc.logs:
             if log.type == 'action':
-                state = log.caption
-        setattr(oc, 'state', state)
-        if state == 'Neu':
+                state = log.state
         if state == 'new':
             c_new += 1
 
