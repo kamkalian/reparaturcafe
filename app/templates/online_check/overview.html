@@ -13,6 +13,17 @@
 </div>
 
 <table class="table" id="oc_table">
+    <thead>
+        <tr>
+            <th></th>
+            <th><small>Eingangsdatum</small></th>
+            <th><small>Gerätebezeichnung</small></th>
+            <th><small>ID</small></th>
+            <th><small>Kunde</small></th>
+            <th><small>Supervisor</small></th>
+            <th><small>Status</small></th>
+        </tr>
+    </thead>
     {% for oc in oc_list %}
     <tr>
         <td class="col-auto"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
