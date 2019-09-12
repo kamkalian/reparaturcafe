@@ -85,9 +85,9 @@
 <script>
     var oc_id_list = [{% for oc in oc_list %}{{ oc.id }},{% endfor %}];
     timer = setInterval(function () {
-        $("#fail_indicator").text('check');
+        //$("#fail_indicator").text('check');
         $.post('/get_new_ocs', {oc_id_list: JSON.stringify(oc_id_list)}).done(function (response) {
-            $("#fail_indicator").text('done');
+            //$("#fail_indicator").text('done');
             oc_id_list.push(response['oc_id']);
             if(response['ok']=='1'){
                 $("#fail_indicator").text('Neuer Onlinecheck eingegangen.');
@@ -102,9 +102,9 @@
                 html += '<td>' + response['customer_name'] + '</td>';
                 html += '<td>' + response['supervisor'] + '</td>';
                 html += '<td><b>' + response['state'] + '</b></td></tr>';
-                $('#oc_table > tbody > tr').last().after(html);
+                //$('#oc_table > tbody > tr').last().after(html);
             }else{
-                $("#fail_indicator").text('');
+                //$("#fail_indicator").text('');
             }
         }).fail(function () {
             $("#fail_indicator").text("ups :(");
