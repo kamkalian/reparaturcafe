@@ -71,6 +71,7 @@ def overview():
             light = '_light'
 
     oc_list = Onlinecheck.query.order_by(Onlinecheck.id.asc()).all()
+    filtered_oc_list = []
 
     # letzten Status ermitteln und counter für den jeweiligen Status hochzählen
     c_all = 0
@@ -85,9 +86,11 @@ def overview():
         c_all += 1
         if state == 'new':
             c_new += 1
+        if state == state_filter or state_filter == 'all':
+            filtered_oc_list.append(oc)
 
     return render_template('online_check/overview.html', title='Übersicht',
-                           oc_list=oc_list,
+                           oc_list=filtered_oc_list,
                            light=light,
                            c_all=c_all,
                            c_new=c_new,
