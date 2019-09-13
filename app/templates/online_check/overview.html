@@ -49,7 +49,15 @@
     {% for oc in oc_list %}
     {% if oc.state == state_filter or state_filter == 'all' %}
     <tr>
-        <td class="col-auto"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
+        <td class="col-auto">
+            {% if oc.date_diff < 14 %}
+            <img src="{{ url_for('static', filename='Klemmbrett_green.svg') }}" width="50px">
+            {% elif oc.date_diff > 14 and oc.date_diff < 30%}
+            <img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px">
+            {% else %}
+            <img src="{{ url_for('static', filename='Klemmbrett_rot.svg') }}" width="50px">
+            {% endif %}
+        </td>
         <td>{{ oc.logs[0].timestamp }}</td>
         <td class="col-10">
             <a href="{{ url_for('online_check.onlinecheck', oc_id=oc.id) }}"
