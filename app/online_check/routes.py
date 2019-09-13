@@ -79,11 +79,19 @@ def overview():
     c_new = 0
     for oc in oc_list:
         state = None
+        thumbs = ''
         for log in oc.logs:
             if log.type == 'action':
                 state = log.state
+                if state == "successfully":
+                    thumbs = '_up'
+                if state == "unsuccessfully":
+                    thumbs = '_down'
+
         setattr(oc, 'state', log.state)
         setattr(oc, 'state_caption', log.caption)
+        setattr(oc, 'thumbs', thumbs)
+
         date_diff = days_between(
             oc.logs[0].timestamp.strftime('%Y-%m-%d'),
             datetime.datetime.now().strftime('%Y-%m-%d'))
