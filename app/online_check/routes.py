@@ -5,6 +5,7 @@ from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
 from app import db
 from flask_user import current_user, login_required
+import datetime
 
 
 @bp.route('/start_new_online_check', methods=['GET', 'POST'])
@@ -83,6 +84,10 @@ def overview():
                 state = log.state
         setattr(oc, 'state', log.state)
         setattr(oc, 'state_caption', log.caption)
+        date_diff = days_between(
+            oc.logs[0].timestamp.strftime('%Y-%m-%d'),
+            datetime.datetime.now().strftime('%Y-%m-%d'))
+        setattr(oc, 'date_diff', date_diff)
         c_all += 1
         if state == 'new':
             c_new += 1
@@ -95,6 +100,11 @@ def overview():
                            c_all=c_all,
                            c_new=c_new,
                            state_filter=state_filter)
+
+def days_between(d1, d2):
+    d1 = datetime.datetime.strptime(d1, "%Y-%m-%d")
+    d2 = datetime.datetime.strptime(d2, "%Y-%m-%d")
+    return abs((d2 - d1).days)
 
 
 @bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
