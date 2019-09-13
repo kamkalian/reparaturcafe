@@ -44,6 +44,7 @@
             <th><small>Kunde</small></th>
             <th><small>Supervisor</small></th>
             <th><small>Status</small></th>
+            <th></th>
         </tr>
     </thead>
     {% for oc in oc_list %}
@@ -81,6 +82,11 @@
             </div>
         </td>
         <td><b>{{ oc.state_caption }}</b></td>
+        <td>
+            {% if oc.thumbs %}
+            <img src="{{ url_for('static', filename='thumbs' + oc.thumbs + '.svg') }}" width="30px">
+            {% endif %}
+        </td>
     </tr>
     {% endif %}
     {% endfor %}
