@@ -25,6 +25,9 @@ class User(UserMixin, db.Model):
     # Define the relationship to Role via UserRoles
     roles = db.relationship('Role', secondary='user_roles')
 
+    online_checks = db.relationship('Onlinecheck', backref='user')
+    logs = db.relationship('Log', backref='user')
+
     def __repr__(self):
         return '<User {}>'.format(self.email)
 
@@ -61,6 +64,7 @@ class Onlinecheck(db.Model):
     customer_name = db.Column(db.String(128))
     customer_email = db.Column(db.String(128))
     customer_tel = db.Column(db.String(128))
+    supervisor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     logs = db.relationship('Log', backref='online_check')
 
 
@@ -70,3 +74,6 @@ class Log(db.Model):
     online_check_id = db.Column(db.Integer, db.ForeignKey('online_check.id'))
     caption = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    state = db.Column(db.String(255))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    type = db.Column(db.String(255))
