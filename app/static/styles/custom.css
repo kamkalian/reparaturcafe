@@ -3,18 +3,30 @@
 	line-height: 1;
 	font-family: monospace;
 	background: #00cdbb;
-	color: #3f3f3f;
+	color: #000;
     font-weight: bold;
     word-wrap: break-word;
     white-space: normal;
 }
 
 .btn-fixed:hover{
-    color: #000000;
+    text-decoration: underline;
+    color: #000;
 }
 
 .btn-monospace{
 	font-family: monospace;
+}
+
+@keyframes example {
+  0%   {background-color: #72e5db; }
+  100% {background-color:white;}
+}
+
+.new_row {
+    position: relative;
+  animation-name: example;
+  animation-duration: 30s;
 }
 
 .ui-slider-range{

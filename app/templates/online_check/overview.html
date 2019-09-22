@@ -1,20 +1,133 @@
-
-{% extends "base.html" %}
+{% extends "base" + light + ".html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block c %}
-    <hr>
-    <table class="table">
-        {% for oc in oc_list %}
+
+
+<div class="row m-0 mb-2">
+    <div id="fail_indicator" class="ml-auto"></div>
+    <div class="btn-group ml-auto" role="group" aria-label="Basic example">
+        {% if state_filter == 'all' %}
+        <a class="btn btn-fixed disabled" style="background-color:#fed300;" disabled>
+        {% else %}
+        <a class="btn btn-fixed" href="{{ url_for('online_check.overview', state_filter='all') }}">
+        {% endif %}
+            Alle: <span class="badge badge-light" id="c_all">{{ c_all }}</span>
+        </a>
+
+        {% if state_filter == 'new' %}
+        <a class="btn btn-fixed disabled" style="background-color:#fed300;" disabled>
+        {% else %}
+        <a class="btn btn-fixed" href="{{ url_for('online_check.overview', state_filter='new') }}">
+        {% endif %}
+            Neu: <span class="badge badge-light" id="c_new">{{ c_new }}</span>
+        </a>
+
+        {% if light == '_light' %}
+        <a href="{{ url_for('online_check.overview', light='back') }}" class="btn btn-fixed ml-auto">
+            <<</a> {% else %}
+        <a href="{{ url_for('online_check.overview', light='go') }}" class="btn btn-fixed ml-auto">
+                Vollbild
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+
+<table class="table" id="oc_table">
+    <thead>
         <tr>
-            <td class="col-1"><img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px"></td>
-            <td class="col-1">{{ oc.id }}</td>
-            <td><a href="{{ url_for('online_check.show', oc_id=oc.id) }}" class="btn btn-fixed">{{ oc.device_name }}</a></td>
+            <th></th>
+            <th><small>Eingangsdatum</small></th>
+            <th><small>Gerätebezeichnung</small></th>
+            <th><small>ID</small></th>
+            <th><small>Kunde</small></th>
+            <th><small>Supervisor</small></th>
+            <th><small>Status</small></th>
+            <th><small>Reparatur erfolgreich?</small></th>
         </tr>
-        {% endfor %}
-    </table>
+    </thead>
+    {% for oc in oc_list %}
+    {% if oc.state == state_filter or state_filter == 'all' %}
+    <tr>
+        <td class="col-auto">
+            {% if oc.date_diff < 14 %}
+            <img src="{{ url_for('static', filename='Klemmbrett_green.svg') }}" width="50px">
+            {% elif oc.date_diff > 14 and oc.date_diff < 30%}
+            <img src="{{ url_for('static', filename='Klemmbrett.svg') }}" width="50px">
+            {% else %}
+            <img src="{{ url_for('static', filename='Klemmbrett_rot.svg') }}" width="50px">
+            {% endif %}
+        </td>
+        <td>{{ oc.logs[0].timestamp }}</td>
+        <td class="col-10">
+            <a href="{{ url_for('online_check.onlinecheck', oc_id=oc.id) }}"
+                class="btn btn-fixed text-left">{{ oc.device_name }}</a>
+        </td>
+        <td class="col-1"><div class="text-nowrap align-items-center">ID: {{ oc.id }}</div></td>
+        <td>
+            <div class="text-nowrap align-items-center">
+                {% if oc.customer_name %}
+                <img src="{{ url_for('static', filename='customer.svg') }}" width="30px" alt="Kunde" title="Kunde">:
+                {{ oc.customer_name }}
+                {% endif %}
+            </div>
+        </td>
+        <td>
+            <div class="text-nowrap align-items-center">
+                {% if oc.user.username %}
+                <img src="{{ url_for('static', filename='supervisor.svg') }}" width="30px" alt="Supervisor" title="Supervisor">:
+                {{ oc.user.username }}
+                {% endif %}
+            </div>
+        </td>
+        <td><b>{{ oc.state_caption }}</b></td>
+        <td>
+            {% if oc.thumbs %}
+            <img src="{{ url_for('static', filename='thumbs' + oc.thumbs + '.svg') }}" width="30px">
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
 
+<audio autoplay controls id="income_sound">
+  <source src="{{ url_for('static', filename='income.mp3') }}" type="audio/mpeg">
+</audio>
 
+<script>
+    var oc_id_list = [{% for oc in oc_list %}{{ oc.id }},{% endfor %}];
+    timer = setInterval(function () {
+        //$("#fail_indicator").text('check');
+        $.post('/get_new_ocs', {oc_id_list: JSON.stringify(oc_id_list)}).done(function (response) {
+            //$("#fail_indicator").text('done');
+            oc_id_list.push(response['oc_id']);
+            if(response['ok']=='1'){
+                $("#fail_indicator").text('Neuer Onlinecheck eingegangen.');
+                document.getElementById("income_sound").play();
+                var html = '<tr class="new_row" id="new_row' + response['oc_id'] + '"><td class="col-auto">';
+                html += '<img src="/static/Klemmbrett.svg" width="50px"></td>';
+                html += '<td>' + response['timestamp'] + '</td>';
+                html += '<td class="col-10">';
+                html += '<a href="/onlinecheck/' + response['oc_id'] + '" class="btn btn-fixed">' + response['device_name'] + '</a>';
+                html += '</td>';
+                html += '<td class="col-1">ID: ' + response['oc_id'] + '</td>';
+                html += '<td>' + response['customer_name'] + '</td>';
+                html += '<td>' + response['supervisor'] + '</td>';
+                html += '<td><b>' + response['state'] + '</b></td></tr>';
+                //$('#oc_table > tbody > tr').last().after(html);
+            }else{
+                //$("#fail_indicator").text('');
+            }
+        }).fail(function () {
+            $("#fail_indicator").text("ups :(");
+        });
 
+        $.post('/get_c_new').done(function (response) {
+            $("#c_new").text(response['c_new']);
+        });
+    }, 10000);
+</script>
 
 {% endblock %}
