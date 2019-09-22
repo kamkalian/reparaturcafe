@@ -8,7 +8,6 @@
     <div class="col-md-auto">
         <div class="btn-group ml-auto">
             <a class="btn btn-fixed disabled" style="background-color:#fed300;" disabled>Status: {{ oc.state_caption }}</a>
-            <div class="btn btn-fixed">Neuer Kommentar</div>
             {% if oc.state == 'new' %}
             <a class="btn btn-fixed">Annehmen</a>
             <a class="btn btn-fixed">Ablehnen</a>
@@ -17,6 +16,7 @@
         </div>
     </div>
 </div>
+
 
 <hr>
 
@@ -64,11 +64,29 @@
                     <div class="col text-right p-1" style="line-height: 1;">
                         <small>{{ log.timestamp }}</small></div>
                 </div>
-                <div class="row p-2 border-left border-bottom border-right rounded-bottom">{{ log.caption }}</div>
+                <div class="row p-2 border-left border-bottom border-right rounded-bottom"
+                     style="white-space: pre-line">{{ log.caption }}</div>
             </div>
             {% endif %}
             {% endfor %}
         </div>
+        <div class="row justify-content-end">
+            <div class="col-md-auto">
+                <a href="#new_comment_anchor" class="btn btn-fixed mt-3 mb-1"
+                   id="new_comment_toggle_button">Neuer Kommentar</a>
+            </div>
+        </div>
+        <section id="new_comment_anchor"></section>
+        <form id="new_comment_form" method="post" name="new_comment_form">
+            <textarea class="w-100" rows="5" name="comment"></textarea>
+            <input type="submit" class="btn btn-fixed" value="Speichern">
+        </form>
+        <script>
+            $("#new_comment_form").hide();
+            $("#new_comment_toggle_button").on("click", function(){
+                $("#new_comment_form").toggle();
+            });
+        </script>
     </div>
     <div class="col">
         <div>
