@@ -3,6 +3,23 @@
 
 {% block c %}
 <hr>
+
+<div class="row justify-content-end">
+    <div class="col-md-auto">
+        <div class="btn-group ml-auto">
+            <a class="btn btn-fixed disabled" style="background-color:#fed300;" disabled>Status: {{ oc.state_caption }}</a>
+            <div class="btn btn-fixed">Neuer Kommentar</div>
+            {% if oc.state == 'new' %}
+            <a class="btn btn-fixed">Annehmen</a>
+            <a class="btn btn-fixed">Ablehnen</a>
+            <a class="btn btn-fixed">Im Schrank</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<hr>
+
 <div class="row">
     <div class="col">
         <div>
