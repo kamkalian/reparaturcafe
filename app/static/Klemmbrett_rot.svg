@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1" viewBox="0 0 300 300">
+<metadata>
+<vectornator:setting key="DisplayWhiteBackground" value="0"/>
+<vectornator:setting key="RulersVisible" value="1"/>
+<vectornator:setting key="GridSpacing" value="1"/>
+<vectornator:setting key="Units" value="Pixels"/>
+<vectornator:setting key="DynamicGuides" value="1"/>
+<vectornator:setting key="SnapToPoints" value="0"/>
+<vectornator:setting key="CMYKEnabledKey" value="0"/>
+<vectornator:setting key="SnapToGrid" value="1"/>
+<vectornator:setting key="ShowGrid" value="1"/>
+<vectornator:setting key="SnapToEdges" value="0"/>
+</metadata>
+<defs/>
+<g id="Ebene 1" vectornator:layerName="Ebene 1">
+<path stroke="#6f6f6f" stroke-width="5" d="M55.2648+24L244.735+24C247.643+24+250+26.8198+250+30.2982L250+277.702C250+281.18+247.643+284+244.735+284L55.2648+284C52.3571+284+50+281.18+50+277.702L50+30.2982C50+26.8198+52.3571+24+55.2648+24Z" fill="#f80000" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M75.3186+44L224.681+44C227.619+44+230+46.9706+230+50.6351L230+257.365C230+261.029+227.619+264+224.681+264L75.3186+264C72.3812+264+70+261.029+70+257.365L70+50.6351C70+46.9706+72.3812+44+75.3186+44Z" fill="#ffffff" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M117.554+15L182.446+15C184.961+15+187+18.3364+187+22.4521L187+43.5479C187+47.6636+184.961+51+182.446+51L117.554+51C115.039+51+113+47.6636+113+43.5479L113+22.4521C113+18.3364+115.039+15+117.554+15Z" fill="#dddddd" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M161.215+82L202.785+82C204.561+82+206+83.3002+206+84.9041L206+122.458C206+124.062+204.561+125.362+202.785+125.362L161.215+125.362C159.439+125.362+158+124.062+158+122.458L158+84.9041C158+83.3002+159.439+82+161.215+82Z" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+85L139+85" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+105L139+105" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+125L139+125" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+147L209.615+147" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+169L209.615+169" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#00aacc" stroke-width="10" d="M159+218C159+218+172+223+177+240C177+240+183+215+206+195" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+195L139+195" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+215L139+215" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M88+235L139+235" fill="none" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path stroke="#6f6f6f" stroke-width="5" d="M161+107L182+107L185+93L203+93L202+122L161+122L161+107Z" fill="#dddddd" stroke-linecap="square" opacity="1" stroke-linejoin="round"/>
+<path d="M189+104.5C189+102.567+190.567+101+192.5+101C194.433+101+196+102.567+196+104.5C196+106.433+194.433+108+192.5+108C190.567+108+189+106.433+189+104.5Z" opacity="1" fill="#f80000"/>
+</g>
+</svg>
