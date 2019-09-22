@@ -132,6 +132,26 @@ def onlinecheck(oc_id):
 
     oc, state = state_check(oc)
 
+    if current_user.is_authenticated:
+        supervisor_id = current_user.id
+    else:
+        supervisor_id = None
+
+    # Wenn ein POST gesendet wurde wird ein neuer Kommentar angelegt.
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        log = Log(caption=comment,
+                  online_check_id=oc.id,
+                  user_id=supervisor_id,
+                  type='comment')
+        db.session.add(log)
+        db.session.commit()
+        return redirect(url_for('online_check.onlinecheck', oc_id=oc.id, new_comment=True))
+
+    if request.args.get('new_comment'):
+        return render_template('online_check/onlinecheck.html', _anchor='new_comment',
+                               title=oc.device_name, oc=oc, logs=logs)
+
     return render_template('online_check/onlinecheck.html',
                            title=oc.device_name, oc=oc, logs=logs)
 
