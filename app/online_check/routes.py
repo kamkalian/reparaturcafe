@@ -78,24 +78,7 @@ def overview():
     c_all = 0
     c_new = 0
     for oc in oc_list:
-        state = None
-        thumbs = ''
-        for log in oc.logs:
-            if log.type == 'action':
-                state = log.state
-                if state == "successfully":
-                    thumbs = '_up'
-                if state == "unsuccessfully":
-                    thumbs = '_down'
-
-        setattr(oc, 'state', log.state)
-        setattr(oc, 'state_caption', log.caption)
-        setattr(oc, 'thumbs', thumbs)
-
-        date_diff = days_between(
-            oc.logs[0].timestamp.strftime('%Y-%m-%d'),
-            datetime.datetime.now().strftime('%Y-%m-%d'))
-        setattr(oc, 'date_diff', date_diff)
+        oc, state = state_check(oc)
         c_all += 1
         if state == 'new':
             c_new += 1
@@ -109,10 +92,35 @@ def overview():
                            c_new=c_new,
                            state_filter=state_filter)
 
+
 def days_between(d1, d2):
     d1 = datetime.datetime.strptime(d1, "%Y-%m-%d")
     d2 = datetime.datetime.strptime(d2, "%Y-%m-%d")
     return abs((d2 - d1).days)
+
+
+def state_check(oc):
+    state = None
+    state_caption = None
+    thumbs = ''
+    for log in oc.logs:
+        if log.type == 'action':
+            state = log.state
+            state_caption = log.caption
+            if state == "successfully":
+                thumbs = '_up'
+            if state == "unsuccessfully":
+                thumbs = '_down'
+
+    setattr(oc, 'state', state)
+    setattr(oc, 'state_caption', state_caption)
+    setattr(oc, 'thumbs', thumbs)
+
+    date_diff = days_between(
+        oc.logs[0].timestamp.strftime('%Y-%m-%d'),
+        datetime.datetime.now().strftime('%Y-%m-%d'))
+    setattr(oc, 'date_diff', date_diff)
+    return oc, state
 
 
 @bp.route('/onlinecheck/<oc_id>', methods=['GET', 'POST'])
@@ -121,6 +129,29 @@ def onlinecheck(oc_id):
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
     logs = Log.query.filter_by(
         online_check_id=oc.id).order_by(Log.timestamp).all()
+
+    oc, state = state_check(oc)
+
+    if current_user.is_authenticated:
+        supervisor_id = current_user.id
+    else:
+        supervisor_id = None
+
+    # Wenn ein POST gesendet wurde wird ein neuer Kommentar angelegt.
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        log = Log(caption=comment,
+                  online_check_id=oc.id,
+                  user_id=supervisor_id,
+                  type='comment')
+        db.session.add(log)
+        db.session.commit()
+        return redirect(url_for('online_check.onlinecheck', oc_id=oc.id, new_comment=True))
+
+    if request.args.get('new_comment'):
+        return render_template('online_check/onlinecheck.html', _anchor='new_comment',
+                               title=oc.device_name, oc=oc, logs=logs)
+
     return render_template('online_check/onlinecheck.html',
                            title=oc.device_name, oc=oc, logs=logs)
 
