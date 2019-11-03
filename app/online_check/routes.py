@@ -71,7 +71,10 @@ def overview():
         if light_sess == '_light':
             light = '_light'
 
-    oc_list = Onlinecheck.query.order_by(Onlinecheck.id.asc()).all()
+    # oc_list = Onlinecheck.query.join(Onlinecheck.logs).filter(not_(Log.state=='closed')).order_by(Onlinecheck.id.asc()).all()
+    oc_list = Onlinecheck.query.filter(
+        ~Onlinecheck.logs.any(Log.state=='closed')
+    ).all()
     filtered_oc_list = []
 
     # letzten Status ermitteln und counter für den jeweiligen Status hochzählen
@@ -160,7 +163,9 @@ def onlinecheck(oc_id):
 @login_required
 def get_new_ocs():
     oc_id_list = json.loads(request.form.get('oc_id_list'))
-    oc_list = Onlinecheck.query.all()
+    oc_list = Onlinecheck.query.filter(
+        ~Onlinecheck.logs.any(Log.state=='closed')
+    ).all()
 
     for oc in oc_list:
 
