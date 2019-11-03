@@ -1,5 +1,6 @@
 import json
 from app.online_check import bp
+from app.online_check.state_structure import get_posible_states
 from flask import render_template, redirect, flash, url_for, request, session, jsonify
 from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
@@ -134,6 +135,7 @@ def onlinecheck(oc_id):
         online_check_id=oc.id).order_by(Log.timestamp).all()
 
     oc, state = state_check(oc)
+    posible_states = get_posible_states(state) # anhand des aktuelles Status werden nun alle möglichen Status ermittelt.
 
     if current_user.is_authenticated:
         supervisor_id = current_user.id
@@ -153,10 +155,10 @@ def onlinecheck(oc_id):
 
     if request.args.get('new_comment'):
         return render_template('online_check/onlinecheck.html', _anchor='new_comment',
-                               title=oc.device_name, oc=oc, logs=logs)
+                               title=oc.device_name, oc=oc, logs=logs, posible_states=posible_states)
 
     return render_template('online_check/onlinecheck.html',
-                           title=oc.device_name, oc=oc, logs=logs)
+                           title=oc.device_name, oc=oc, logs=logs, posible_states=posible_states)
 
 
 @bp.route('/get_new_ocs', methods=['GET', 'POST'])
