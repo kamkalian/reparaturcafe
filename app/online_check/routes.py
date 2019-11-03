@@ -207,3 +207,27 @@ def get_c_new():
         if state == 'new':
             c_new += 1
     return jsonify({'c_new': c_new})
+
+
+@bp.route('/change_state/<oc_id>', methods=['GET', 'POST'])
+@login_required
+def change_state(oc_id):
+    # print(request.form.get('new_state'))
+    new_state = request.form.get('new_state')
+    new_state_caption = request.form.get('new_state_caption')
+
+    supervisor_id = current_user.id
+
+    # TODO überprüfen ob der Statuswechseln erlaubt ist
+    # posible_states = get_posible_states(new_state)
+
+    log = Log(caption=new_state_caption,
+                  online_check_id=oc_id,
+                  user_id=supervisor_id,
+                  type='action',
+                  state=new_state)
+    db.session.add(log)
+    db.session.commit()
+    flash('Status wurde geändert.', 'success')
+
+    return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
