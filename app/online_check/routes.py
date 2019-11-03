@@ -1,6 +1,6 @@
 import json
 from app.online_check import bp
-from flask import render_template, redirect, flash, url_for, request, session
+from flask import render_template, redirect, flash, url_for, request, session, jsonify
 from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
 from app import db
@@ -31,7 +31,7 @@ def start_new_online_check():
                   online_check_id=oc.id,
                   user_id=supervisor_id,
                   type='action',
-                  state='Neu')
+                  state='new')
         db.session.add(log)
         db.session.commit()
         flash('Neuer Online Check wurde erstellt.', 'success')
@@ -181,15 +181,15 @@ def get_new_ocs():
             # Ersten Timestamp ermitteln
             timestamp = oc.logs[0].timestamp.strftime('%Y-%m-%d %I:%M:%S')
 
-            return {'ok': 1,
+            return jsonify({'ok': 1,
                     'timestamp': timestamp,
                     'device_name': oc.device_name,
                     'oc_id': oc.id,
                     'customer_name': oc.customer_name,
                     'supervisor': supervisor,
-                    'state': state}
+                    'state': state})
 
-    return {'ok': 0}
+    return jsonify({'ok':0})
 
 
 @bp.route('/get_c_new', methods=['GET', 'POST'])
@@ -206,5 +206,4 @@ def get_c_new():
                 state = log.state
         if state == 'new':
             c_new += 1
-
-    return {'c_new': c_new}
+    return jsonify({'c_new': c_new})
