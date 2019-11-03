@@ -134,7 +134,7 @@ def onlinecheck(oc_id):
     logs = Log.query.filter_by(
         online_check_id=oc.id).order_by(Log.timestamp).all()
 
-    oc, state = state_check(oc)
+    oc, state = state_check(oc) # letzten Status+Caption ermitteln und Zeitraum ausrechnen und dem onlinecheck hinzufügen.
     posible_states = get_posible_states(state) # anhand des aktuelles Status werden nun alle möglichen Status ermittelt.
 
     if current_user.is_authenticated:
