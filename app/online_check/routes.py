@@ -169,6 +169,9 @@ def get_new_ocs():
         ~Onlinecheck.logs.any(Log.state=='closed')
     ).all()
 
+    state_filter_sess = session.get('state_filter')
+
+
     for oc in oc_list:
 
         if oc.id not in oc_id_list:
@@ -176,9 +179,14 @@ def get_new_ocs():
 
             # letzten Status ermitteln
             state = None
+            state_caption = None
             for log in oc.logs:
                 if log.type == 'action':
-                    state = log.caption
+                    state_caption = log.caption
+                    state = log.state
+            
+            if state != state_filter_sess:
+                continue            
 
             # Supervisor ermitteln
             supervisor = ''
@@ -194,7 +202,7 @@ def get_new_ocs():
                     'oc_id': oc.id,
                     'customer_name': oc.customer_name,
                     'supervisor': supervisor,
-                    'state': state})
+                    'state': state_caption})
 
     return jsonify({'ok':0})
 
