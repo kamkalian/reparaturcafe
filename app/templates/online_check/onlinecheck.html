@@ -6,17 +6,20 @@
 
 <div class="row justify-content-end">
     <div class="col-md-auto">
-        <div class="btn-group ml-auto">
-            <a class="btn btn-fixed disabled" style="background-color:#fed300;" disabled>Status: {{ oc.state_caption }}</a>
-            {% if oc.state == 'new' %}
-            <a class="btn btn-fixed">Annehmen</a>
-            <a class="btn btn-fixed">Ablehnen</a>
-            <a class="btn btn-fixed">Im Schrank</a>
+        <div class="row">
+            <a class="btn btn-fixed disabled m-1" style="background-color:#fed300;" disabled>Status: {{ oc.state_caption }}</a>
+            {% if posible_states %}
+            {% for state in posible_states %}
+            <form id="form_{{ state[0] }}" method="post" name="new_comment_form" action="{{ url_for('online_check.change_state', oc_id=oc.id) }}">
+                <input type="hidden" name="new_state" value="{{ state[0] }}">
+                <input type="hidden" name="new_state_caption" value="{{ state[1] }}">
+                <input type="submit" class="btn btn-fixed m-1" value="{{ state[1] }}">
+            </form>
+            {% endfor %}
             {% endif %}
         </div>
     </div>
 </div>
-
 
 <hr>
 

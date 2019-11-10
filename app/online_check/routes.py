@@ -1,6 +1,7 @@
 import json
 from app.online_check import bp
-from flask import render_template, redirect, flash, url_for, request, session
+from app.online_check.state_structure import get_posible_states
+from flask import render_template, redirect, flash, url_for, request, session, jsonify
 from app.online_check.forms import NewOnlineCheckForm
 from app.models import Onlinecheck, Log
 from app import db
@@ -31,7 +32,7 @@ def start_new_online_check():
                   online_check_id=oc.id,
                   user_id=supervisor_id,
                   type='action',
-                  state='Neu')
+                  state='new')
         db.session.add(log)
         db.session.commit()
         flash('Neuer Online Check wurde erstellt.', 'success')
@@ -71,7 +72,10 @@ def overview():
         if light_sess == '_light':
             light = '_light'
 
-    oc_list = Onlinecheck.query.order_by(Onlinecheck.id.asc()).all()
+    # oc_list = Onlinecheck.query.join(Onlinecheck.logs).filter(not_(Log.state=='closed')).order_by(Onlinecheck.id.asc()).all()
+    oc_list = Onlinecheck.query.filter(
+        ~Onlinecheck.logs.any(Log.state=='closed')
+    ).all()
     filtered_oc_list = []
 
     # letzten Status ermitteln und counter für den jeweiligen Status hochzählen
@@ -130,7 +134,8 @@ def onlinecheck(oc_id):
     logs = Log.query.filter_by(
         online_check_id=oc.id).order_by(Log.timestamp).all()
 
-    oc, state = state_check(oc)
+    oc, state = state_check(oc) # letzten Status+Caption ermitteln und Zeitraum ausrechnen und dem onlinecheck hinzufügen.
+    posible_states = get_posible_states(state) # anhand des aktuelles Status werden nun alle möglichen Status ermittelt.
 
     if current_user.is_authenticated:
         supervisor_id = current_user.id
@@ -150,17 +155,22 @@ def onlinecheck(oc_id):
 
     if request.args.get('new_comment'):
         return render_template('online_check/onlinecheck.html', _anchor='new_comment',
-                               title=oc.device_name, oc=oc, logs=logs)
+                               title=oc.device_name, oc=oc, logs=logs, posible_states=posible_states)
 
     return render_template('online_check/onlinecheck.html',
-                           title=oc.device_name, oc=oc, logs=logs)
+                           title=oc.device_name, oc=oc, logs=logs, posible_states=posible_states)
 
 
 @bp.route('/get_new_ocs', methods=['GET', 'POST'])
 @login_required
 def get_new_ocs():
     oc_id_list = json.loads(request.form.get('oc_id_list'))
-    oc_list = Onlinecheck.query.all()
+    oc_list = Onlinecheck.query.filter(
+        ~Onlinecheck.logs.any(Log.state=='closed')
+    ).all()
+
+    state_filter_sess = session.get('state_filter')
+
 
     for oc in oc_list:
 
@@ -169,9 +179,14 @@ def get_new_ocs():
 
             # letzten Status ermitteln
             state = None
+            state_caption = None
             for log in oc.logs:
                 if log.type == 'action':
-                    state = log.caption
+                    state_caption = log.caption
+                    state = log.state
+            
+            if state != state_filter_sess:
+                continue            
 
             # Supervisor ermitteln
             supervisor = ''
@@ -181,15 +196,15 @@ def get_new_ocs():
             # Ersten Timestamp ermitteln
             timestamp = oc.logs[0].timestamp.strftime('%Y-%m-%d %I:%M:%S')
 
-            return {'ok': 1,
+            return jsonify({'ok': 1,
                     'timestamp': timestamp,
                     'device_name': oc.device_name,
                     'oc_id': oc.id,
                     'customer_name': oc.customer_name,
                     'supervisor': supervisor,
-                    'state': state}
+                    'state': state_caption})
 
-    return {'ok': 0}
+    return jsonify({'ok':0})
 
 
 @bp.route('/get_c_new', methods=['GET', 'POST'])
@@ -206,5 +221,28 @@ def get_c_new():
                 state = log.state
         if state == 'new':
             c_new += 1
+    return jsonify({'c_new': c_new})
 
-    return {'c_new': c_new}
+
+@bp.route('/change_state/<oc_id>', methods=['GET', 'POST'])
+@login_required
+def change_state(oc_id):
+    # print(request.form.get('new_state'))
+    new_state = request.form.get('new_state')
+    new_state_caption = request.form.get('new_state_caption')
+
+    supervisor_id = current_user.id
+
+    # TODO überprüfen ob der Statuswechseln erlaubt ist
+    # posible_states = get_posible_states(new_state)
+
+    log = Log(caption=new_state_caption,
+                  online_check_id=oc_id,
+                  user_id=supervisor_id,
+                  type='action',
+                  state=new_state)
+    db.session.add(log)
+    db.session.commit()
+    flash('Status wurde geändert.', 'success')
+
+    return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
