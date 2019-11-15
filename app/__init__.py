@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_user import UserManager
 from flask_session import Session
-from telegram.ext import Updater, CommandHandler
+
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -39,32 +39,10 @@ def create_app(config_class=Config):
     from app.online_check import bp as online_check_bp
     app.register_blueprint(online_check_bp)
 
-    updater = Updater(token='1025332314:AAHeb5_PDYFOnPVgyqwiqJXUAQ9B7pz8lJI', use_context=True)
-    dispatcher = updater.dispatcher
-    start_handler = CommandHandler('start', start)
-    list_handler = CommandHandler('list', list)
-    dispatcher.add_handler(start_handler)
-    dispatcher.add_handler(list_handler)
-    updater.start_polling()
+    from app.oskar_bot import bp as oskar_bot_bp
+    app.register_blueprint(oskar_bot_bp)
 
     return app
-
-def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text='Hallo Welt')
-    print('Hallo Welt')
-
-def list(update, context):
-    try:
-        oc_list = Onlinecheck.query.filter(
-            ~Onlinecheck.logs.any(Log.state=='closed')
-        ).all() 
-        context.bot.send_message(chat_id=update.effective_chat.id, text=oc_list)
-        print(oc_list)
-    except:
-        context.bot.send_message(chat_id=update.effective_chat.id, text='Datenbank nicht erreichbar.')
-        print('Error')
-    
-
 
 
 from app import models
