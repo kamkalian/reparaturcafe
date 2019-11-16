@@ -55,8 +55,17 @@ def oskar_bot():
         chat_id, cmd = parse_message(msg)
 
         # Prüfen welcher Befehl gesendet wurde und entsprechend reagieren
-        if cmd == 'hallo':
-            send_message(chat_id, 'Hallo Welt 2.0')
+        # HALLO der Bot stellt sich kurz vor
+        if cmd == 'HALLO':
+            send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.<br>Folgende Befehle kann ich schon: /hallo /list')
+        
+        # LIST listet alle offenen Onlinechecks auf
+        if cmd == 'LIST':
+            oc_list = Onlinecheck.query.filter(
+                    ~Onlinecheck.logs.any(Log.state=='closed')
+            ).all()
+            for oc in oc_list:
+                send_message(chat_id, oc.device_name)
 
         return Response('Ok', status=200)
     else:
