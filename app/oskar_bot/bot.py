@@ -26,12 +26,12 @@ def parse_message(message):
     return chat_id, cmd
 
 
-def send_message(chat_id, text=':)'):
+def send_message(chat_id, text, parse_mode=''):
     # Url aus der Telegram API, in der url steckt der Token des Bots
     url = f'https://api.telegram.org/bot{Config.TELEGRAM_BOT_TOKEN}/sendMessage'
 
     # Über den Payload wird als Json die Chat id und der Text mitgeschickt.
-    payload = {'chat_id':chat_id, 'text':text}
+    payload = {'chat_id':chat_id, 'text':text, 'parse_mode':parse_mode}
 
     # Ein POST request wird gesendet.
     r = requests.post(url, json=payload)
