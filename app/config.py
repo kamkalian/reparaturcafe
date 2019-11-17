@@ -114,7 +114,7 @@ class Config(object):
     USER_UNAUTHORIZED_ENDPOINT = ''
 
     TELEGRAM_BOT_TOKEN = get_env_var('TELEGRAM_BOT_TOKEN')
-
+    TELEGRAM_CHAT_ID = get_env_var('TELEGRAM_CHAT_ID')
 
 class DevConfig(Config):
     DEBUG = True
