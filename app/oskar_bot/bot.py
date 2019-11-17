@@ -64,8 +64,10 @@ def oskar_bot():
             oc_list = Onlinecheck.query.filter(
                     ~Onlinecheck.logs.any(Log.state=='closed')
             ).all()
+            device_list = []
             for oc in oc_list:
-                send_message(chat_id, oc.device_name)
+                device_list.append(oc.device_name)
+            send_message(chat_id, device_list)
 
         return Response('Ok', status=200)
     else:
