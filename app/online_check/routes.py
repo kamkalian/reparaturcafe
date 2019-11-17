@@ -7,7 +7,8 @@ from app.models import Onlinecheck, Log
 from app import db
 from flask_user import current_user, login_required
 import datetime
-
+from app.oskar_bot.bot import send_message
+from app.config import Config
 
 @bp.route('/start_new_online_check', methods=['GET', 'POST'])
 def start_new_online_check():
@@ -35,6 +36,8 @@ def start_new_online_check():
                   state='new')
         db.session.add(log)
         db.session.commit()
+        text = 'Ein neuer Onlinecheck wurde erstellt: *' + oc.device_name + '* \n https://q01.reparaturcafe.online/onlinecheck/' + str(oc.id)
+        send_message(str(Config.TELEGRAM_CHAT_ID), text=text, parse_mode='Markdown')
         flash('Neuer Online Check wurde erstellt.', 'success')
         return redirect(url_for('main.index'))
     return render_template('online_check/new_online_check_form.html',
@@ -246,3 +249,4 @@ def change_state(oc_id):
     flash('Status wurde geändert.', 'success')
 
     return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
+
