@@ -56,7 +56,7 @@ def oskar_bot():
         chat_id, cmd, first_name = parse_message(msg)
 
         # Prüfen welcher Befehl gesendet wurde und entsprechend reagieren
-        if chat_id == '422828332':
+        if chat_id == 422828332:
             # HALLO der Bot stellt sich kurz vor
             if cmd == 'HALLO':
                 send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.<br>Folgende Befehle kann ich schon: /hallo /list')
