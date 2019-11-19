@@ -14,8 +14,8 @@ def parse_message(message):
     txt = message['message']['text']
     first_name = message['message']['from']['first_name']
 
-    # regex Pattern zum Filtern der Befehle
-    pattern = r'/[a-zA-Z]{2,5}'
+    # regex Pattern zum Filtern der Befehle; Unterstrich wird auch erlaubt.
+    pattern = r'/[a-zA-Z_]{2,7}'
 
     # regex Filter anwenden
     cmd_list = re.findall(pattern, txt)
