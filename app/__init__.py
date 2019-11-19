@@ -8,6 +8,7 @@ from flask_mail import Mail
 from flask_user import UserManager
 from flask_session import Session
 
+
 db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
@@ -37,6 +38,9 @@ def create_app(config_class=Config):
 
     from app.online_check import bp as online_check_bp
     app.register_blueprint(online_check_bp)
+
+    from app.oskar_bot import bp as oskar_bot_bp
+    app.register_blueprint(oskar_bot_bp)
 
     return app
 
