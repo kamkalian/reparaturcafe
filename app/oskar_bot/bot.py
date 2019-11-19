@@ -53,22 +53,25 @@ def oskar_bot():
         msg = request.get_json()
 
         # Die Message wird auf enthaltene Befehle untersucht
-        chat_id, cmd = parse_message(msg)
+        chat_id, cmd, first_name = parse_message(msg)
 
         # Prüfen welcher Befehl gesendet wurde und entsprechend reagieren
-        # HALLO der Bot stellt sich kurz vor
-        if cmd == 'HALLO':
-            send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.<br>Folgende Befehle kann ich schon: /hallo /list')
-        
-        # LIST listet alle offenen Onlinechecks auf
-        if cmd == 'LIST':
-            oc_list = Onlinecheck.query.filter(
-                    ~Onlinecheck.logs.any(Log.state=='closed')
-            ).all()
-            device_list = []
-            for oc in oc_list:
-                device_list.append(oc.device_name)
-            send_message(chat_id, device_list)
+        if chat_id == '422828332':
+            # HALLO der Bot stellt sich kurz vor
+            if cmd == 'HALLO':
+                send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.<br>Folgende Befehle kann ich schon: /hallo /list')
+            
+            # LIST listet alle offenen Onlinechecks auf
+            if cmd == 'LIST':
+                oc_list = Onlinecheck.query.filter(
+                        ~Onlinecheck.logs.any(Log.state=='closed')
+                ).all()
+                device_list = []
+                for oc in oc_list:
+                    device_list.append(oc.device_name)
+                send_message(chat_id, device_list)
+        else:
+            send_message(chat_id, f'Hallo {first_name}, bitte nutze den direkten Chat zum Bot: @oskar_awo_bot, um Befehle auszuführen.\nSomit werden dann die anderen Teilnehmer in dieser Gruppe nicht gestört.')
 
         return Response('Ok', status=200)
     else:
