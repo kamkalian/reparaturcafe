@@ -102,7 +102,7 @@ def oskar_bot():
 
             # HALLO; der Bot stellt sich kurz vor
             if cmd == 'HALLO':
-                send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.<br>Folgende Befehle kann ich schon: /hallo /list')
+                send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.\nFolgende Befehle kann ich schon: \n/hallo\n/list\n/cmd_off\n/cmd_on')
             
             # LIST; listet alle offenen Onlinechecks auf
             if cmd == 'LIST':
