@@ -5,6 +5,7 @@ from app.config import Config
 import re
 import requests
 
+cmd_off_list = []
 
 def parse_message(message):
 
@@ -57,13 +58,25 @@ def oskar_bot():
         # Die Message wird auf enthaltene Befehle untersucht
         chat_id, cmd, first_name = parse_message(msg)
 
+        # CMD_OFF; wenn der Bot den befehl 'cmd_off' bekommt dann wird die chat_id auf eine Liste gesetzt
+        if cmd == 'CMD_OFF':
+            cmd_off_list.append(chat_id)
+            send_message(chat_id, 'Ok, ich werde ab sofort in diesem Chat nicht mehr auf Kommandos antworten.\nWenn Ihr das wieder ändern wollt gebt einfach /cmd_on ein.')
+            return Response('Ok', status=200)
+
+        # CMD_ON; hiermit wird die chat_id wieder von der Liste runter genommen.
+        if cmd == 'CMD_ON':
+            cmd_off_list.remove(chat_id)
+            send_message(chat_id, 'Juhu, jetzt darf ich wieder auf Kommandos antworten.')
+            return Response('Ok', status=200)
+
         # Prüfen welcher Befehl gesendet wurde und entsprechend reagieren
-        if chat_id == 422828332:
-            # HALLO der Bot stellt sich kurz vor
+        if chat_id not in cmd_off_list:
+            # HALLO; der Bot stellt sich kurz vor
             if cmd == 'HALLO':
                 send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.<br>Folgende Befehle kann ich schon: /hallo /list')
             
-            # LIST listet alle offenen Onlinechecks auf
+            # LIST; listet alle offenen Onlinechecks auf
             if cmd == 'LIST':
                 oc_list = Onlinecheck.query.filter(
                         ~Onlinecheck.logs.any(Log.state=='closed')
