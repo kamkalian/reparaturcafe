@@ -11,6 +11,7 @@ def parse_message(message):
     # Information aus dem übergebenen JSON (message) extrahieren
     chat_id = message['message']['chat']['id']
     txt = message['message']['text']
+    first_name = message['message']['from']['first_name']
 
     # regex Pattern zum Filtern der Befehle
     pattern = r'/[a-zA-Z]{2,5}'
@@ -23,7 +24,7 @@ def parse_message(message):
     else:
         cmd = ''
 
-    return chat_id, cmd
+    return chat_id, cmd, first_name
 
 
 def send_message(chat_id, text, parse_mode=''):
