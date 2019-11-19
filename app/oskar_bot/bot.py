@@ -4,8 +4,8 @@ from flask import request, Response
 from app.config import Config
 import re
 import requests
+import pickle
 
-cmd_off_list = []
 
 def parse_message(message):
 
@@ -49,6 +49,15 @@ def oskar_bot():
     z.B. https://api.telegram.org/bot<token>/setWebhook?url=https://q01.reparaturcafe.online/oskar_bot
     '''
     
+    # Aus einer Datei wird die aktuel cmd_off_list geholt
+    try:
+        with open('cmd_off_list.p', 'rb') as f:
+            cmd_off_list = pickle.load(f)
+    except FileNotFoundError:
+        cmd_off_list = []
+        with open('cmd_off_list.p', 'wb') as f:
+            pickle.dump(cmd_off_list, f)
+    
     # Wenn ein Post request rein kommt dann hat jemand etwas im Telegram Chat geschrieben.
     if request.method == 'POST':
 
@@ -58,20 +67,39 @@ def oskar_bot():
         # Die Message wird auf enthaltene Befehle untersucht
         chat_id, cmd, first_name = parse_message(msg)
 
-        # CMD_OFF; wenn der Bot den befehl 'cmd_off' bekommt dann wird die chat_id auf eine Liste gesetzt
-        if cmd == 'CMD_OFF':
-            cmd_off_list.append(chat_id)
-            send_message(chat_id, 'Ok, ich werde ab sofort in diesem Chat nicht mehr auf Kommandos antworten.\nWenn Ihr das wieder ändern wollt gebt einfach /cmd_on ein.')
-            return Response('Ok', status=200)
-
         # CMD_ON; hiermit wird die chat_id wieder von der Liste runter genommen.
         if cmd == 'CMD_ON':
-            cmd_off_list.remove(chat_id)
+
+            # chat_id entfernen
+            try:
+                cmd_off_list = cmd_off_list.remove(chat_id)
+            except ValueError:
+                send_message(chat_id, 'In diesem Chat anworte ich schon auf jedes Kommando.')
+                return Response('Ok', status=200)
+
+            # Wenn nach dem Entfernen die List = None ist so wird eine leere Liste erstellt
+            if not cmd_off_list:
+                cmd_off_list = []
+
+            # Liste in Datei speichern
+            with open('cmd_off_list.p', 'wb') as f:
+                pickle.dump(cmd_off_list, f)
+
+            # Antwort senden
             send_message(chat_id, 'Juhu, jetzt darf ich wieder auf Kommandos antworten.')
             return Response('Ok', status=200)
 
-        # Prüfen welcher Befehl gesendet wurde und entsprechend reagieren
+        # Prüfen ob es erlaubt ist in diesem Chat auf einen Befehl zu Antworten
         if chat_id not in cmd_off_list:
+
+            # CMD_OFF; wenn der Bot den befehl 'cmd_off' bekommt dann wird die chat_id auf eine Liste gesetzt
+            if cmd == 'CMD_OFF':
+                cmd_off_list.append(chat_id)
+                with open('cmd_off_list.p', 'wb') as f:
+                    pickle.dump(cmd_off_list, f)
+                send_message(chat_id, 'Ok, ich werde ab sofort in diesem Chat nicht mehr auf Kommandos antworten.\nWenn Ihr das wieder ändern wollt gebt einfach /cmd_on ein.')
+                return Response('Ok', status=200)
+
             # HALLO; der Bot stellt sich kurz vor
             if cmd == 'HALLO':
                 send_message(chat_id, 'Hallo, ich bin Oskar, der Bot des Reparaturcafes in der AWO Oberlar.<br>Folgende Befehle kann ich schon: /hallo /list')
