@@ -114,7 +114,7 @@ def oskar_bot():
                     device_list.append(oc.device_name)
                 send_message(chat_id, device_list)
         else:
-            send_message(chat_id, f'Hallo {first_name}, bitte nutze den direkten Chat zum Bot: @oskar_awo_bot, um Befehle auszuführen.\nSomit werden dann die anderen Teilnehmer in dieser Gruppe nicht gestört.')
+            send_message(chat_id, '😴')
 
         return Response('Ok', status=200)
     else:
