@@ -25,7 +25,6 @@ Folgende Features stehen zur verfügung:
 Was wird benötigt?
 ==================
 - Umgebung in der Python3.7 oder höher läuft
-  (z.B. ein Virtueller Server mit Ubuntu)
 - MySQL Datenbank
 - Dieses Repo von github.com
 - Weitere Pakete aus der requirements.txt
@@ -39,7 +38,8 @@ Vorraussetzungen
 ----------------
 Es wird vorrausgesetzt das eine Maschine mit Ubuntu oder
 einem anderen Linux System vorhanden ist.
-Die Maschine sollte soweit abgesichert sein das z.B:
+Die Maschine sollte soweit abgesichert sein das ein SSH Login nur
+per SSH-Key und nur mit einem User möglich ist (nicht per root)
 
 Grundlegende Software installieren
 ----------------------------------
@@ -51,7 +51,7 @@ Zu aller erst installieren wir Python, MySQL Datenbank und den Nginx Webserver
 
 MySQL Datenbank einrichten
 --------------------------
-In der MySQL Datenbank brauchen wir einen User und eine Datenbank, 
+In der MySQL Datenbank brauchen wir einen User und eine Datenbank,
 in der später die Tabellen angelegt werden.
 Zum Einrichten benutzen wir das Kommandozeilentool ``mysql``.
 Dazu gehen wir per Terminal in mysql rein:
