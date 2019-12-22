@@ -42,12 +42,11 @@ def send_message(chat_id, text, parse_mode=''):
 
 @bp.route('/oskar_bot', methods=['POST', 'GET'])
 def oskar_bot():
-
-    '''
+    """
     Über diese Route schickt Telegram Post Requests sobald jemand etwas schreibt.
     Dazu muss über die Telegram API ein Webhook eingerichtet werden.
     z.B. https://api.telegram.org/bot<token>/setWebhook?url=https://q01.reparaturcafe.online/oskar_bot
-    '''
+    """
     
     # Wenn ein Post request rein kommt dann hat jemand etwas im Telegram Chat geschrieben.
     if request.method == 'POST':
