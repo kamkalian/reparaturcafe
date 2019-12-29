@@ -50,11 +50,6 @@ class Config(object):
 
     ADMINS = ['oskar@reparaturcafe.kurm.de']
 
-    password = get_env_var("MYSQL_PASSWORD")
-    username = get_env_var("MYSQL_USER")
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'DATABASE_URL') or 'mysql+pymysql://' + username + ':' + password + '@localhost/reparaturcafe'
-
     # Flask-Mail SMTP server settings
     MAIL_SERVER = get_env_var('MAIL_SERVER')
     MAIL_PORT = get_env_var('MAIL_PORT', 587, int)
@@ -120,11 +115,21 @@ class DevConfig(Config):
     DEBUG = True
     SECRET_KEY = get_env_var("SECRET_KEY", "not-sufficient-for-production")
 
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL') or 'sqlite:///' + os.path.join(app_basedir, 'reparaturcafe.db')
+    print(SQLALCHEMY_DATABASE_URI)
+
 
 class TestConfig(Config):
     TESTING = True
     SECRET_KEY = get_env_var("SECRET_KEY", "sufficient-for-tests")
 
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+
 
 class ProdConfig(Config):
+    password = get_env_var("MYSQL_PASSWORD")
+    username = get_env_var("MYSQL_USER")
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL') or 'mysql+pymysql://' + username + ':' + password + '@localhost/reparaturcafe'
     pass
