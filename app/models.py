@@ -2,6 +2,7 @@ from app import db
 from datetime import datetime
 from flask_user import UserMixin
 from hashlib import md5
+from flask import current_app
 
 
 class User(UserMixin, db.Model):
@@ -35,6 +36,9 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
+
+    def set_password(self, password):
+        self.password = current_app.user_manager.hash_password(password)
 
 
 class Role(db.Model):
