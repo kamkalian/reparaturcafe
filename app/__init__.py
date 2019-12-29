@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from app.config import Config
+from app.config import Config, DevConfig
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -16,11 +16,19 @@ mail = Mail()
 session = Session()
 
 
-def create_app(config_class=Config):
+def create_app(config_class=None):
     app = Flask(__name__)
-    config_name = os.environ.get("FLASK_CONFIG", "Dev")
-    app.config.from_object(getattr(config, config_name.title() + "Config"))
+    #app.config.from_object(getattr(config, config_name.title() + "Config"))
+    if config_class is None:
+        config_name = os.environ.get("FLASK_CONFIG")
+        if config_name:
+            config_class = getattr(config, config_name.title() + "Config")
+        else:
+            config_class = DevConfig
+    app.config.from_object(config_class)
     app.app_context().push()
+
+    print(config_class)
 
     db.init_app(app)
     migrate.init_app(app, db)
