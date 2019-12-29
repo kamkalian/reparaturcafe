@@ -66,6 +66,14 @@ class Onlinecheck(db.Model):
     customer_tel = db.Column(db.String(128))
     supervisor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     logs = db.relationship('Log', backref='online_check')
+    attachments = db.relationship('Attachment', backref='online_check')
+
+
+class Attachment(db.Model):
+    __tablename__ = 'attachment'
+    id = db.Column(db.Integer, primary_key=True)
+    online_check_id = db.Column(db.Integer, db.ForeignKey('online_check.id'))
+    filename = db.Column(db.String(255))
 
 
 class Log(db.Model):
