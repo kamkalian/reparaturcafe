@@ -22,15 +22,48 @@
 </div>
 
 <hr>
+<div class="d-none d-sm-block" style="height: 20px;"></div>
 
-<div class="row">
-    <div class="col">
-        <div>
+<div class="container-lg">
+
+    <div class="row">
+        <div class="col">
             <h3>Gerätedaten</h3>
             {{ oc.device_issue }}
         </div>
-        <hr>
-        <div>
+    </div>
+
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+    <hr>
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+
+    <div class="row">
+        <div class="col">
+            <h3>Kontaktdaten</h3>
+            <div class="row">
+                <div class="col-2 d-none d-sm-block">Name</div>
+                <div class="col-1 d-none d-sm-block">:</div>
+                <div class="col-md-9 col-sm">{{ oc.customer_name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-2 d-none d-sm-block">E-Mail</div>
+                <div class="col-1 d-none d-sm-block">:</div>
+                <div class="col-md-9 col-sm">{{ oc.customer_email }}</div>
+            </div>
+            <div class="row">
+                <div class="col-2 d-none d-sm-block">Tel.:</div>
+                <div class="col-1 d-none d-sm-block">:</div>
+                <div class="col-md-9 col-sm">{{ oc.customer_tel }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+    <hr>
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+
+    <div class="row">
+        <div class="col">
             <h3>Historie</h3>
             {% for log in logs %}
             {% if log.type == 'action' %}
@@ -72,44 +105,27 @@
             </div>
             {% endif %}
             {% endfor %}
-        </div>
-        <div class="row justify-content-end">
-            <div class="col-md-auto">
-                <a href="#new_comment_anchor" class="btn btn-fixed mt-3 mb-1"
-                   id="new_comment_toggle_button">Neuer Kommentar</a>
+
+            <div class="row justify-content-end">
+                <div class="col-md-auto">
+                    <a href="#new_comment_anchor" class="btn btn-fixed mt-3 mb-1"
+                       id="new_comment_toggle_button">Neuer Kommentar</a>
+                </div>
             </div>
-        </div>
-        <section id="new_comment_anchor"></section>
-        <form id="new_comment_form" method="post" name="new_comment_form">
-            <textarea class="w-100" rows="5" name="comment"></textarea>
-            <input type="submit" class="btn btn-fixed" value="Speichern">
-        </form>
-        <script>
-            $("#new_comment_form").hide();
-            $("#new_comment_toggle_button").on("click", function(){
-                $("#new_comment_form").toggle();
-            });
-        </script>
-    </div>
-    <div class="col">
-        <div>
-            <h3>Kontaktdaten</h3>
-            <div class="row">
-                <div class="col-3">Name</div>
-                <div class="col-1">:</div>
-                <div class="col-8">{{ oc.customer_name }}</div>
-            </div>
-            <div class="row">
-                <div class="col-3">E-Mail</div>
-                <div class="col-1">:</div>
-                <div class="col-8">{{ oc.customer_email }}</div>
-            </div>
-            <div class="row">
-                <div class="col-3">Tel.:</div>
-                <div class="col-1">:</div>
-                <div class="col-8">{{ oc.customer_tel }}</div>
-            </div>
+            <section id="new_comment_anchor"></section>
+            <form id="new_comment_form" method="post" name="new_comment_form">
+                <textarea class="w-100" rows="5" name="comment"></textarea>
+                <input type="submit" class="btn btn-fixed" value="Speichern">
+            </form>
+            <script>
+                $("#new_comment_form").hide();
+                $("#new_comment_toggle_button").on("click", function(){
+                    $("#new_comment_form").toggle();
+                });
+            </script>
         </div>
     </div>
+
 </div>
+
 {% endblock %}
