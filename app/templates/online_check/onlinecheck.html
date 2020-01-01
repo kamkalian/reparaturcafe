@@ -81,7 +81,7 @@
 
                     <div class="p-1" style="line-height: 1; font-weight: bold;">{{ log.caption }}</div>
                     <div class="col text-right p-1" style="line-height: 1;">
-                        <small>{{ log.timestamp }}</small></div>
+                        <small>{{ log.timestamp.strftime('%d.%m.%Y %H:%M') }}</small></div>
                 </div>
             </div>
             {% endif %}
