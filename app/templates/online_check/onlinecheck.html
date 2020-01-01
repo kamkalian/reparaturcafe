@@ -64,6 +64,47 @@
 
     <div class="row">
         <div class="col">
+            <h3>Anhänge</h3>
+            <div class="row">
+                <div class="col">
+                    <small>Zum Hochladen von Dateien klicke hier:
+                        <button class="btn btn-fixed"
+                                    id="new_attachment_toggle_button">+</button>
+                    </small>
+                
+                    <form id="new_attachment_form" method="post" name="new_attachment_form">
+                        <div class="container">
+                            <div class="row p-4 border mt-2">
+                                <div class="col">
+                                    <h3>1. </h3><input type="file" class="btn btn-fixed">
+                                </div>
+                                <div class="col-2">
+                                    <h3>2. </h3><input type="submit" class="btn btn-fixed" value="Hochladen">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </form>  
+
+                    
+                    <script>
+                        $("#new_attachment_form").hide();
+                        $("#new_attachment_toggle_button").on("click", function(){
+                            $("#new_attachment_form").slideToggle();
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+    <hr>
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+
+    <div class="row">
+        <div class="col">
             <h3>Historie</h3>
             {% for log in logs %}
             {% if log.type == 'action' %}
