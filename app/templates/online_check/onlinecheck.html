@@ -139,7 +139,7 @@
                         {% endif %}
                     </div>
                     <div class="col text-right p-1" style="line-height: 1;">
-                        <small>{{ log.timestamp }}</small></div>
+                        <small>{{ log.timestamp.strftime('%d.%m.%Y %H:%M') }}</small></div>
                 </div>
                 <div class="row p-2 border-left border-bottom border-right rounded-bottom"
                      style="white-space: pre-line">{{ log.caption }}</div>
