@@ -147,13 +147,17 @@ def onlinecheck(oc_id):
 
     # Wenn ein POST gesendet wurde wird ein neuer Kommentar angelegt.
     if request.method == 'POST':
-        comment = request.form.get('comment')
-        log = Log(caption=comment,
-                  online_check_id=oc.id,
-                  user_id=supervisor_id,
-                  type='comment')
-        db.session.add(log)
-        db.session.commit()
+        form_name = request.form.get('name')
+
+        if form_name == 'new_comment_form':
+            comment = request.form.get('comment')
+            log = Log(caption=comment,
+                    online_check_id=oc.id,
+                    user_id=supervisor_id,
+                    type='comment')
+            db.session.add(log)
+            db.session.commit()
+
         return redirect(url_for('online_check.onlinecheck', oc_id=oc.id, new_comment=True))
 
     if request.args.get('new_comment'):
