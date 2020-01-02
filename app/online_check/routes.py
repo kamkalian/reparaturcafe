@@ -147,9 +147,8 @@ def onlinecheck(oc_id):
 
     # Wenn ein POST gesendet wurde wird ein neuer Kommentar angelegt.
     if request.method == 'POST':
-        form_name = request.form.get('name')
-
-        if form_name == 'new_comment_form':
+        
+        if 'new_comment_form' in request.form:
             comment = request.form.get('comment')
             log = Log(caption=comment,
                     online_check_id=oc.id,
