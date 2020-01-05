@@ -115,6 +115,7 @@
                 </div>
             </div>
 
+            <!--
             <div class="row mx-0">
                 {% for attachment in oc.attachments %}
                 <a class="card mr-2 mt-2" style="width: 130px;" href="{{ url_for('static', filename='attachments/' + attachment.filename) }}">
@@ -127,7 +128,34 @@
                 </a>
                 {% endfor %}
             </div>
+            -->
+
+            <div class="row mx-0" id="attachment_section"></div>
             
+            <script>
+                
+                $.post( '/attachment_list', {oc_id:1})
+                .done(function( data ) {
+                    
+                    $.each(JSON.parse(data), function( index, value ) {
+                        var html;
+                        console.log(value);
+
+                        a_href = '{{ url_for('static', filename='attachments/') }}'+value;
+                        img_src = '{{ url_for('static', filename='attachments/') }}'+value;
+                        
+                        html = '<a class="card mr-2 mt-2" style="width: 130px;" href="'+a_href+'">';
+                        html += '<img src="'+img_src+'" class="card-img-top" alt="...">';
+                        html += '<div class="card-body p-1">';
+                        html += '<p class="card-text"><small>'+value+'</small></p>';
+                        html += '</div></a>';
+                        $('#attachment_section').append(html);
+                    });
+                })
+                .fail(function() {
+                    console.log('error');
+                });
+            </script>
             
         </div>
     </div>
