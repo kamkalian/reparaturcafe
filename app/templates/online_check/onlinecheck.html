@@ -81,21 +81,32 @@
                                 <div class="col py-2">
                                     <h3>1. </h3>
                                     <label class="btn btn-fixed">
-                                        Auswählen <input type="file" class="d-none">
+                                        Auswählen <input type="file" class="d-none" id="attachment_file">
                                     </label>
+                                </div>
+                                <div class="col py-2">
+                                    <img id="thumb_img" width="130px">
                                 </div>
                                 <div class="col py-2">
                                     <h3>2. </h3>
                                     <input type="submit" class="btn btn-fixed" value="Hochladen" name="new_attachment_form">
                                 </div>
                             </div>
-                        </div>
-                        
-                        
+                        </div>                        
                     </form>  
 
-                    
                     <script>
+                        $('input#attachment_file').change(function(){
+                        if (this.files && this.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                selectedImage = e.target.result;
+                                $('img#thumb_img').attr('src', selectedImage);
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        }
+                        });
+
                         $("#new_attachment_form").hide();
                         $("#new_attachment_toggle_button").on("click", function(){
                             $("#new_attachment_form").slideToggle();
