@@ -99,6 +99,21 @@
                     </script>
                 </div>
             </div>
+
+            <div class="row mx-0">
+                {% for attachment in oc.attachments %}
+                <a class="card mr-2 mt-2" style="width: 130px;" href="{{ url_for('static', filename='attachments/' + attachment.filename) }}">
+                    <img src="{{ url_for('static', filename='attachments/' + attachment.filename) }}" class="card-img-top" alt="...">
+                    <div class="card-body p-1">
+                        <p class="card-text">
+                            <small>{{ attachment.filename }}</small>
+                        </p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            
+            
         </div>
     </div>
     <!------------------------------------------
