@@ -18,6 +18,7 @@ def app():
         db.create_all()
 
         # mehrere Onlinechecks mit und ohne Anhänge erstellen
+        # 1
         oc = Onlinecheck(device_name='Leuchtturm', customer_name='Kurm')
         db.session.add(oc)
         db.session.commit()
@@ -25,6 +26,7 @@ def app():
         attachment = Attachment(online_check_id=oc.id, filename='test.jpg')
         db.session.add(attachment)
 
+        # 2
         oc = Onlinecheck(device_name='Mixer', customer_name='Kurm')
         db.session.add(oc)
         db.session.commit()
@@ -33,6 +35,7 @@ def app():
         attachment = Attachment(online_check_id=oc.id, filename='test3.jpg')
         db.session.add(attachment)
 
+        # 3
         oc = Onlinecheck(device_name='Toaster', customer_name='Kurm')
         db.session.add(oc)
         db.session.commit()
