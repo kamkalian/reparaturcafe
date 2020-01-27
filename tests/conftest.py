@@ -61,9 +61,10 @@ class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self):
-        test_user = User.query.filter_by(username='oskar').first()
-        flask_login.login_user(test_user)
+    def login(self, username='oskar', password='test'):
+        return self._client.post(
+            "/auth/login", data={"username": username, "password": password}
+        )
 
     def logout(self):
         return self._client.get("/auth/logout")
