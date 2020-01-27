@@ -14,8 +14,6 @@ def attachment_list():
 
     # ID aus den übermittelten POST Daten holen
     oc_id = request.form.get('oc_id')
-    print('##############')
-    print(oc_id)
 
     attachment_list = Attachment.query.filter_by(online_check_id=oc_id).all()
     attachment_filename_list = []
