@@ -32,3 +32,33 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
 
+@bp.route('/attachment_upload', methods=['POST'])
+@login_required
+def attachment_upload():
+    '''
+    Nimmt per POST eine hochgeladene Datei entgegen und speichert sie auf dem Server 
+    im static/attachments Verzeichnis ab.
+    Zusätzlich wird in der Datenbank ein Eintrag geschrieben.
+    '''
+
+    # ID aus den übermittelten POST Daten holen
+    oc_id = request.form.get('oc_id')
+
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+
+    return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
