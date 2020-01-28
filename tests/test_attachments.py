@@ -25,7 +25,7 @@ def test_empty_attachment_list(auth, client, oc_id):
 
     auth.login() 
     
-    attachment_list_json = attachments.attachment_list(oc_id)
-    attachment_list = json.loads(attachment_list_json)
+    attachment_list_json = client.post("/attachment_list", data={'oc_id':oc_id})
+    attachment_list = json.loads(attachment_list_json.data)
 
     assert len(attachment_list) == 0
