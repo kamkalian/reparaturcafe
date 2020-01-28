@@ -10,15 +10,12 @@ def test_attachment_list(auth, client, oc_id):
  
     auth.login()
 
-    attachment_list_json = client.post("/attachment_list", data={'oc_id':oc_id})
     assert client.post("/attachment_list").status_code == 200
-    #for item in app.url_map.iter_rules():
-    #    print(item)
-    print('########################')
-    print(attachment_list_json.data)
-    attachment_list = json.loads(attachment_list_json.json)    
+    attachment_list_json = client.post("/attachment_list", data={'oc_id':oc_id})
+    
+    attachment_list = json.loads(attachment_list_json.data)    
 
-    #assert len(attachment_list) > 0
+    assert len(attachment_list) > 0
 
 
 @pytest.mark.parametrize(
