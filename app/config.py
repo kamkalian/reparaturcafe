@@ -43,7 +43,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     APP_NAME = 'reparaturcafe'
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guesskjkjkjkjkghgjgfsdfdsfdsfdsf'
     SESSION_TYPE = "filesystem"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -122,7 +122,7 @@ class DevConfig(Config):
 
 class TestConfig(Config):
     TESTING = True
-    SECRET_KEY = get_env_var("SECRET_KEY", "sufficient-for-tests")
+    SECRET_KEY = get_env_var("SECRET_KEY", "sufficient-for-testsdsfdfgffdgfdgfdgfdgfdgfdg")
 
     SQLALCHEMY_DATABASE_URI = "sqlite://"
 
