@@ -50,6 +50,9 @@ class Config(object):
 
     ADMINS = ['oskar@reparaturcafe.kurm.de']
 
+    ALLOWED_EXTENSIONS = ['png', 'jpg', 'pdf']
+    UPLOAD_FOLDER = 'attachments/'
+
     # Flask-Mail SMTP server settings
     MAIL_SERVER = get_env_var('MAIL_SERVER')
     MAIL_PORT = get_env_var('MAIL_PORT', 587, int)
