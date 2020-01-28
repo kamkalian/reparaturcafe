@@ -21,7 +21,7 @@ def test_attachment_list(auth, client, oc_id):
 @pytest.mark.parametrize(
     "oc_id", [3]
 )
-def test_empty_attachment_list(auth, oc_id):  
+def test_empty_attachment_list(auth, client, oc_id):  
 
     auth.login() 
     
