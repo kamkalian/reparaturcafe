@@ -125,6 +125,7 @@ class TestConfig(Config):
     SECRET_KEY = get_env_var("SECRET_KEY", "sufficient-for-testsdsfdfgffdgfdgfdgfdgfdgfdg")
 
     SQLALCHEMY_DATABASE_URI = "sqlite://"
+    WTF_CSRF_ENABLED = False
 
 
 class ProdConfig(Config):
