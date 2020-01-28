@@ -21,3 +21,14 @@ def attachment_list():
         attachment_filename_list.append(attachment.filename)
 
     return json.dumps(attachment_filename_list)
+
+
+def allowed_file(filename):
+    '''
+    Prüft ob der Dateiname einen Punkt enthält und ob die Endung erlaubt ist.
+    '''
+    
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
+
+
