@@ -59,9 +59,23 @@ def attachment_upload():
         if file.filename == '':
             flash(u'Bitte Datei auswählen!', 'danger')
             return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
+        if file:
+
+            if allowed_file(file.filename):
+            
+                # Datei speichern
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+                file.save('app/static/attachments/' + filename)
+
+                # TODO Datei in kleinerer Variante abspeichern
+                
+                # Eintrag in DB schreiben
+                attachment = Attachment(online_check_id=oc_id, filename=filename)
+                db.session.add(attachment)
+                db.session.commit()
+
+                flash(u'Datei wurde hochgeladen.', 'success')
+                return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
+            
 
     return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
