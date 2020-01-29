@@ -64,7 +64,7 @@ def attachment_upload():
             if allowed_file(file.filename):
             
                 # Datei speichern
-            filename = secure_filename(file.filename)
+                filename = secure_filename(file.filename)
                 file.save('app/static/attachments/' + filename)
 
                 # TODO Datei in kleinerer Variante abspeichern
@@ -77,5 +77,11 @@ def attachment_upload():
                 flash(u'Datei wurde hochgeladen.', 'success')
                 return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
             
+            else:
+                extensions = ''
+                for ext in current_app.config['ALLOWED_EXTENSIONS']:
+                    extensions += ext + ', '
+                flash(u'Es sind nur folgende Dateitypen erlaubt: ' + extensions[:-2], 'danger')
+                return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
 
     return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
