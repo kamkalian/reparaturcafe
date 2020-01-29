@@ -74,8 +74,13 @@
                         <button class="btn btn-fixed"
                                     id="new_attachment_toggle_button">+</button>
                     </small>
-                
-                    <form id="new_attachment_form" method="post" name="new_attachment_form">
+
+                    <form action="{{ url_for('online_check.attachment_upload') }}" 
+                        id="new_attachment_form" 
+                        method="POST" 
+                        name="new_attachment_form" 
+                        enctype="multipart/form-data">
+                        
                         <div class="container">
                             <div class="row border rounded mt-2">
                                 <div class="col py-2">
