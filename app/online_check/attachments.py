@@ -48,17 +48,17 @@ def attachment_upload():
     oc_id = request.form.get('oc_id')
 
     if request.method == 'POST':
+
         # check if the post request has the file part
         if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
+            flash(u'Fehler, Datei nicht gefunden!', 'danger')
+            return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
+            flash(u'Bitte Datei auswählen!', 'danger')
+            return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file',
