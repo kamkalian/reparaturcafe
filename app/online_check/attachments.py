@@ -3,6 +3,9 @@ from flask_user import current_user, login_required
 from flask import request, redirect, url_for, flash, current_app
 from app.models import Attachment
 import json
+from werkzeug.utils import secure_filename
+import os
+from app import db
 
 
 @bp.route('/attachment_list', methods=['POST'])
