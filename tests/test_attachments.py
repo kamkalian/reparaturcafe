@@ -2,6 +2,40 @@ import pytest
 from app.online_check import attachments
 import json
 from flask_user import current_user
+from io import BytesIO
+from app.models import Onlinecheck
+
+
+@pytest.mark.parametrize(
+    "oc_id", [1, 2]
+)
+@pytest.mark.parametrize(
+    "filename", ['test1.png', 'test2.jpg']
+)
+def test_attachment_upload(auth, client, oc_id, filename):
+    '''
+    Prüft ob der Datei Upload funktioniert.
+    '''
+ 
+    # Testuser einloggen
+    auth.login()
+
+    # Prüfen ob der redirect funktioniert
+    assert client.post("/attachment_upload", data={'oc_id':oc_id}).status_code == 302
+
+    response = client.post(
+            '/attachment_upload',
+            data = {
+                'oc_id':oc_id,
+                'file': (BytesIO(b'my file contents'), filename),
+            }
+        )
+
+    oc = Onlinecheck.query.filter_by(id=oc_id).first()
+    filenames = [item.filename for item in oc.attachments]
+    
+    assert filename in filenames
+
 
 @pytest.mark.parametrize(
     "oc_id", [1, 2]
@@ -41,22 +75,6 @@ def test_allowed_extensions(auth, client, filename):
 
     assert attachments.allowed_file(filename)
 
-
-@pytest.mark.parametrize(
-    "oc_id", [1, 2]
-)
-def test_attachment_upload(auth, client, oc_id):
-    '''
-    Prüft ob der Datei Upload funktioniert.
-    '''
- 
-    # Testuser einloggen
-    auth.login()
-
-    # Prüfen ob der redirect funktioniert
-    assert client.post("/attachment_upload", data={'oc_id':oc_id}).status_code == 302
-
-    
 
 
 
