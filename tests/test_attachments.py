@@ -4,6 +4,8 @@ import json
 from flask_user import current_user
 from io import BytesIO
 from app.models import Onlinecheck
+import os.path
+import png
 
 
 @pytest.mark.parametrize(
@@ -33,8 +35,13 @@ def test_attachment_upload(auth, client, oc_id, filename):
 
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
     filenames = [item.filename for item in oc.attachments]
+
+    splitted_filename = filename.split('.')
+    thumb_filename = splitted_filename[0] + '_thumb.' + splitted_filename[1]
     
     assert filename in filenames
+    assert os.path.exists('app/static/attachments/' + filename)
+    assert os.path.exists('app/static/attachments/' + thumb_filename)
 
 
 @pytest.mark.parametrize(
