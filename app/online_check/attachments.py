@@ -73,7 +73,7 @@ def attachment_upload():
                 thumb_filename = splitted_filename[0] + '_thumb.' + splitted_filename[1]
                 try:
                     im = Image.open('app/static/attachments/' + filename)
-                    im.thumbnail(current_app.config.THUMBNAIL_SIZE)
+                    im.thumbnail(current_app.config['THUMBNAIL_SIZE'])
                     im.save('app/static/attachments/' + thumb_filename)
                 except Exception as e:
                     print(e)
