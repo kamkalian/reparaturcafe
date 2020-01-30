@@ -2,10 +2,10 @@ import pytest
 from app.online_check import attachments
 import json
 from flask_user import current_user
-from io import BytesIO
+from io import BytesIO, StringIO
 from app.models import Onlinecheck
 import os.path
-import png
+from PIL import Image
 
 
 @pytest.mark.parametrize(
