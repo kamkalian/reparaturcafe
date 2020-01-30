@@ -25,11 +25,18 @@ def test_attachment_upload(auth, client, oc_id, filename):
     # Prüfen ob der redirect funktioniert
     assert client.post("/attachment_upload", data={'oc_id':oc_id}).status_code == 302
 
+    # Eine Bild-Datei im Speicher erstellen
+    f = BytesIO()
+    image = Image.new('RGBA', size=(50, 50), color=(155, 0, 0))
+    image.save(f, 'png')
+    f.name = filename
+    f.seek(0)
+
     response = client.post(
             '/attachment_upload',
             data = {
                 'oc_id':oc_id,
-                'file': (BytesIO(b'my file contents'), filename),
+                'file': (f, f.name),
             }
         )
 
