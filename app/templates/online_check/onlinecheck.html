@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="col py-2">
                                     <h3>2. </h3>
-                                    <input type="submit" class="btn btn-fixed" value="Hochladen">
+                                    <input type="submit" class="btn btn-fixed" value="Hochladen" name="new_attachment_form">
                                 </div>
                             </div>
                         </div>                        
@@ -145,10 +145,11 @@
                     
                     $.each(JSON.parse(data), function( index, value ) {
                         var html;
-                        console.log(value);
+                        spl = value.split('.');
+                        thumb = spl[0] + '_thumb.' + spl[1];
 
                         a_href = '{{ url_for('static', filename='attachments/') }}'+value;
-                        img_src = '{{ url_for('static', filename='attachments/') }}'+value;
+                        img_src = '{{ url_for('static', filename='attachments/') }}'+thumb;
                         
                         html = '<a class="card mr-2 mt-2" style="width: 130px;" href="'+a_href+'">';
                         html += '<img src="'+img_src+'" class="card-img-top" alt="...">';
