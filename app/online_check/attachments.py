@@ -6,6 +6,7 @@ import json
 from werkzeug.utils import secure_filename
 import os
 from app import db
+from PIL import Image
 
 
 @bp.route('/attachment_list', methods=['POST'])
