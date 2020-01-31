@@ -76,7 +76,7 @@ def attachment_upload():
                     im.thumbnail(current_app.config['THUMBNAIL_SIZE'])
                     im.save('app/static/attachments/' + thumb_filename)
                 except Exception as e:
-                    print(e)
+                    flash(u'Vorschaubild konnte nicht erstellt werden.', 'warning')
 
                 
 
