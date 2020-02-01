@@ -42,6 +42,7 @@ def test_attachment_upload(auth, client, oc_id, filename):
 
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
     filenames = [item.filename for item in oc.attachments]
+    log_types = [item.type for item in oc.logs]
 
     splitted_filename = filename.split('.')
     thumb_filename = splitted_filename[0] + '_thumb.' + splitted_filename[1]
@@ -49,6 +50,7 @@ def test_attachment_upload(auth, client, oc_id, filename):
     assert filename in filenames
     assert os.path.exists('app/static/attachments/' + filename)
     assert os.path.exists('app/static/attachments/' + thumb_filename)
+    assert 'upload' in log_types
 
 
 @pytest.mark.parametrize(
@@ -95,3 +97,18 @@ def test_allowed_extensions(auth, client, filename):
     '''
 
     assert attachments.allowed_file(filename)
+
+
+@pytest.mark.parametrize(
+    "oc_id", [1, 2]
+)
+@pytest.mark.parametrize(
+    "filename", ['test1.png', 'test2.jpg']
+)
+def test_attachment_inactive(app_logged_in, oc_id, filename):
+    '''
+    Prüft ob sich die hochgeladenen Dateien inaktivieren lassen
+    '''
+
+    # Prüfen ob der redirect funktioniert
+    assert client.post("/attachment_inactive", data={'oc_id':oc_id}).status_code == 302
