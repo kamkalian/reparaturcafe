@@ -64,6 +64,13 @@ def test_attachment_list(auth, client, oc_id):
     attachment_list = json.loads(attachment_list_json.data)    
 
     assert len(attachment_list) > 0
+    
+    if oc_id == 1:
+        assert 'test.jpg' in attachment_list
+
+    if oc_id == 2:
+        assert 'test2.jpg' in attachment_list
+        assert 'test3.jpg' in attachment_list
 
 
 @pytest.mark.parametrize(
