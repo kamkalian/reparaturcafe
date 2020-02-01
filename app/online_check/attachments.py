@@ -82,24 +82,27 @@ def attachment_upload():
         if file:
 
             if allowed_file(file.filename):
-            
-                # Datei speichern
-                filename = secure_filename(file.filename)
-                file.save('app/static/attachments/' + filename)
 
-                # Bei Bildern ein Vorschaubild speichern
-                splitted_filename = filename.split('.')
-                thumb_filename = splitted_filename[0] + '_thumb.' + splitted_filename[1]
-                try:
-                    im = Image.open('app/static/attachments/' + filename)
-                    im.thumbnail(current_app.config['THUMBNAIL_SIZE'])
-                    im.save('app/static/attachments/' + thumb_filename)
-                except Exception as e:
-                    flash(u'Vorschaubild konnte nicht erstellt werden.', 'warning')
+                filename = secure_filename(file.filename)
 
                 # Eintrag in DB schreiben
                 attachment = Attachment(online_check_id=oc_id, filename=filename)
                 db.session.add(attachment)
+                db.session.commit()
+            
+                # Datei speichern
+                file.save('app/static/attachments/' + str(attachment.id) + filename)
+
+                # Bei Bildern ein Vorschaubild speichern
+                splitted_filename = filename.split('.')
+                thumb_filename = splitted_filename[0] + '_thumb.' + splitted_filename[1]
+
+                try:
+                    im = Image.open('app/static/attachments/' + str(attachment.id) + filename)
+                    im.thumbnail(current_app.config['THUMBNAIL_SIZE'])
+                    im.save('app/static/attachments/' + str(attachment.id) + thumb_filename)
+                except Exception as e:
+                    flash(u'Vorschaubild konnte nicht erstellt werden.', 'warning')
 
                 # Log Eintrag in DB schreiben
                 if current_user.is_authenticated:
