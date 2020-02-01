@@ -68,11 +68,11 @@ def test_attachment_list(auth, client, oc_id):
     assert len(attachment_list) > 0
     
     if oc_id == 1:
-        assert 'test.jpg' in attachment_list
+        assert [1, 'test.jpg'] in attachment_list
 
     if oc_id == 2:
-        assert 'test2.jpg' in attachment_list
-        assert 'test3.jpg' in attachment_list
+        assert [2, 'test2.jpg'] in attachment_list
+        assert [3, 'test3.jpg'] in attachment_list
 
 
 @pytest.mark.parametrize(
