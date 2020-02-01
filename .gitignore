@@ -7,3 +7,4 @@ migrations/__pycache__/
 .env
 reparaturcafe.code-workspace
 cmd_off_list.p
+app/static/attachments/
