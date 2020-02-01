@@ -40,7 +40,7 @@ def attachment_list():
     # ID aus den übermittelten POST Daten holen
     oc_id = request.form.get('oc_id')
 
-    attachment_list = Attachment.query.filter_by(online_check_id=oc_id).all()
+    attachment_list = Attachment.query.filter_by(online_check_id=oc_id, is_active=1).all()
     attachment_filename_list = []
     for attachment in attachment_list:
         attachment_filename_list.append(attachment.filename)
