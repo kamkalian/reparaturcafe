@@ -145,17 +145,13 @@
                     
                     $.each(JSON.parse(data), function( index, value ) {
                         var html;
-                        spl = value.split('.');
+                        spl = value[1].split('.');
                         thumb = spl[0] + '_thumb.' + spl[1];
 
                         a_href = '{{ url_for('static', filename='attachments/') }}'+value;
                         img_src = '{{ url_for('static', filename='attachments/') }}'+thumb;
                         
-                        html = '<a class="card mr-2 mt-2" style="width: 130px;" href="'+a_href+'">';
-                        html += '<img src="'+img_src+'" class="card-img-top" alt="...">';
-                        html += '<div class="card-body p-1">';
-                        html += '<p class="card-text"><small>'+value+'</small></p>';
-                        html += '</div></a>';
+                        html = '<a class="mr-2 mt-2" style="width: 130px;" href="/attachment/'+value[0]+'">';
                         $('#attachment_section').append(html);
                     });
                 })
