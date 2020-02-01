@@ -16,8 +16,6 @@ def attachment(attachment_id):
     Lädt ein Attachment und gibt das Template zurück.
     '''
 
-    print(attachment_id)
-
     # Attachment laden
     attachment = Attachment.query.filter_by(id=attachment_id).first()
 
