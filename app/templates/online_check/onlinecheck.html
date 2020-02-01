@@ -152,6 +152,8 @@
                         img_src = '{{ url_for('static', filename='attachments/') }}'+thumb;
                         
                         html = '<a class="mr-2 mt-2" style="width: 130px;" href="/attachment/'+value[0]+'">';
+                        html += '<img src="'+img_src+'" class="border rounded" alt="...">';
+                        html += '</a>';
                         $('#attachment_section').append(html);
                     });
                 })
