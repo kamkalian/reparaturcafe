@@ -78,10 +78,6 @@ def attachment_upload():
                 except Exception as e:
                     flash(u'Vorschaubild konnte nicht erstellt werden.', 'warning')
 
-                
-
-                # TODO Datei in kleinerer Variante abspeichern
-                
                 # Eintrag in DB schreiben
                 attachment = Attachment(online_check_id=oc_id, filename=filename)
                 db.session.add(attachment)
