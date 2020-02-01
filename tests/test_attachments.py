@@ -95,8 +95,3 @@ def test_allowed_extensions(auth, client, filename):
     '''
 
     assert attachments.allowed_file(filename)
-
-
-
-
-
