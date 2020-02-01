@@ -140,7 +140,7 @@
             
             <script>
                 
-                $.post( '/attachment_list', {oc_id:1})
+                $.post( '/attachment_list', {oc_id:{{ oc.id }}})
                 .done(function( data ) {
                     
                     $.each(JSON.parse(data), function( index, value ) {
