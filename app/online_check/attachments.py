@@ -1,12 +1,33 @@
 from app.online_check import bp
 from flask_user import current_user, login_required
-from flask import request, redirect, url_for, flash, current_app
+from flask import request, redirect, url_for, flash, current_app, render_template
 from app.models import Attachment, Log
 import json
 from werkzeug.utils import secure_filename
 import os
 from app import db
 from PIL import Image
+
+
+@bp.route('/attachment/<attachment_id>', methods=['GET'])
+@login_required
+def attachment(attachment_id):
+    '''
+    Lädt ein Attachment und gibt das Template zurück.
+    '''
+
+    print(attachment_id)
+
+    # Attachment laden
+    attachment = Attachment.query.filter_by(id=attachment_id).first()
+
+    return render_template('online_check/attachment.html',
+                           title=attachment.online_check.device_name,
+                           oc_id=attachment.online_check.id,
+                           filename=attachment.filename,
+                           attachment_id=attachment.id)
+
+
 
 
 @bp.route('/attachment_list', methods=['POST'])
