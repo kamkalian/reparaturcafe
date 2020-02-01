@@ -3,7 +3,7 @@ from app.online_check import attachments
 import json
 from flask_user import current_user
 from io import BytesIO, StringIO
-from app.models import Onlinecheck
+from app.models import Onlinecheck, Attachment
 import os.path
 from PIL import Image
 
@@ -102,6 +102,32 @@ def test_allowed_extensions(auth, client, filename):
 @pytest.mark.parametrize(
     "oc_id", [1, 2]
 )
+def test_attachment_archive(app_logged_in, client, oc_id):
+    '''
+    Prüft ob sich die hochgeladenen Dateien inaktivieren lassen
+    '''
+
+    # Prüfen ob der redirect funktioniert
+    assert client.post("/attachment_archive", data={'oc_id':oc_id}).status_code == 302
+
+    response = client.post(
+            '/attachment_archive',
+            data = {
+                'oc_id':oc_id,
+                'attachment_id': '1'
+            }
+        )
+
+    attachment = Attachment.query.filter_by(id=1).first()
+
+    assert attachment.is_active is not True
+
+    oc = Onlinecheck.query.filter_by(id=oc_id).first()
+    log_types = [item.type for item in oc.logs]
+
+    assert 'attachment' in log_types
+    
+
 @pytest.mark.parametrize(
     "filename", ['test1.png', 'test2.jpg']
 )
