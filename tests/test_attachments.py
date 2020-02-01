@@ -40,17 +40,29 @@ def test_attachment_upload(auth, client, oc_id, filename):
             }
         )
 
+    # OnlineCheck laden
     oc = Onlinecheck.query.filter_by(id=oc_id).first()
-    filenames = [item.filename for item in oc.attachments]
-    log_types = [item.type for item in oc.logs]
-
-    splitted_filename = filename.split('.')
-    thumb_filename = splitted_filename[0] + '_thumb.' + splitted_filename[1]
     
+    # Alle Anhämge durchlaufen
+    for attachment in oc.attachments:
+
+        # Für jedes Vorschaubild den Dateinamen ermitteln
+        splitted_filename = attachment.filename.split('.')
+        thumb_filename = str(attachment.id) + splitted_filename[0] + '_thumb.' + splitted_filename[1]
+
+        # Dateiname aus ID und filename zusammenbauen
+        converted_filename = str(attachment.id) + attachment.filename
+
+        assert os.path.exists('app/static/attachments/' + converted_filename)
+        assert os.path.exists('app/static/attachments/' + thumb_filename)
+    
+    filenames = [item.filename for item in oc.attachments]
     assert filename in filenames
-    assert os.path.exists('app/static/attachments/' + filename)
-    assert os.path.exists('app/static/attachments/' + thumb_filename)
+    
+    log_types = [item.type for item in oc.logs]
     assert 'attachment' in log_types
+
+
 
 
 @pytest.mark.parametrize(

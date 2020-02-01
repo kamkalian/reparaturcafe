@@ -20,8 +20,8 @@
     <div class="row">
         <div class="col">
             <h3>{{ filename }}</h3>
-            <a href="{{ url_for('static', filename='attachments/'+filename) }}">
-                <img src="{{ url_for('static', filename='attachments/'+filename) }}" style="max-width: 900px;" class="my-3">
+            <a href="{{ url_for('static', filename='attachments/'+attachment_id|string+filename) }}">
+                <img src="{{ url_for('static', filename='attachments/'+attachment_id|string+filename) }}" style="max-width: 900px;" class="my-3">
             </a>
             <form action="{{ url_for('online_check.attachment_archive') }}" 
                 id="" 

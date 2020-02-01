@@ -149,7 +149,7 @@
                         thumb = spl[0] + '_thumb.' + spl[1];
 
                         a_href = '{{ url_for('static', filename='attachments/') }}'+value;
-                        img_src = '{{ url_for('static', filename='attachments/') }}'+thumb;
+                        img_src = '{{ url_for('static', filename='attachments/') }}'+ value[0] + thumb;
                         
                         html = '<a class="mr-2 mt-2" style="width: 130px;" href="/attachment/'+value[0]+'">';
                         html += '<img src="'+img_src+'" class="border rounded" alt="...">';
