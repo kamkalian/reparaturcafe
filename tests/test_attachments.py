@@ -129,12 +129,11 @@ def test_attachment_archive(app_logged_in, client, oc_id):
     
 
 @pytest.mark.parametrize(
-    "filename", ['test1.png', 'test2.jpg']
+    "attachment_id", [1, 2]
 )
-def test_attachment_inactive(app_logged_in, oc_id, filename):
+def test_attachment1(app_logged_in, client, attachment_id):
     '''
-    Prüft ob sich die hochgeladenen Dateien inaktivieren lassen
+    Prüft ob der Anhang aufgerufen werden kann.
     '''
-
-    # Prüfen ob der redirect funktioniert
-    assert client.post("/attachment_inactive", data={'oc_id':oc_id}).status_code == 302
+    
+    assert client.get("/attachment/"+str(attachment_id)).status_code == 200
