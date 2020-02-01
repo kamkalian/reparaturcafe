@@ -128,3 +128,43 @@ def attachment_upload():
                 return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
 
     return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
+
+
+@bp.route('/attachment_archive', methods=['POST'])
+@login_required
+def attachment_archive():
+    '''
+    Archiviert einen Anhang, in dem bei dem Eintrag für den Anhang ein Flag gesetzt wird.
+    '''
+
+    # ID aus den übermittelten POST Daten holen
+    oc_id = request.form.get('oc_id')
+    attachment_id = request.form.get('attachment_id')
+
+    if attachment_id:
+
+        # Attachment laden
+        attachment = Attachment.query.filter_by(id=attachment_id).first()
+        attachment.is_active = False
+
+        # Log Eintrag in DB schreiben
+        if current_user.is_authenticated:
+            supervisor_id = current_user.id
+        else:
+            supervisor_id = None
+        log = Log(caption=attachment.filename,
+            online_check_id=oc_id,
+            user_id=supervisor_id,
+            type='attachment',
+            state='archived')
+        db.session.add(log)
+
+        db.session.commit()
+
+        flash(u'Anhang ' + attachment.filename + ' wurde archiviert.', 'success')
+        return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
+
+    else:
+
+        flash(u'Anhang nicht gefunden', 'danger')
+        return redirect(url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False))
