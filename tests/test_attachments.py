@@ -50,7 +50,7 @@ def test_attachment_upload(auth, client, oc_id, filename):
     assert filename in filenames
     assert os.path.exists('app/static/attachments/' + filename)
     assert os.path.exists('app/static/attachments/' + thumb_filename)
-    assert 'upload' in log_types
+    assert 'attachment' in log_types
 
 
 @pytest.mark.parametrize(
