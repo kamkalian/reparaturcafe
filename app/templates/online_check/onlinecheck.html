@@ -214,7 +214,7 @@
                      style="white-space: pre-line">{{ log.caption }}</div>
             </div>
             {% endif %}
-            {% if log.type == 'upload' %}
+            {% if log.type == 'attachment' %}
             <div class="container mt-3 align-items-start">
                 <div class="row bg-light p-1 border rounded align-items-center">
 
@@ -229,7 +229,7 @@
 
                     <div class="p-1">
                         {% if log.state == 'new' %}hat die Datei <span class="font-weight-bold">{{ log.caption }}</span> hochgeladen.{% endif %}
-                        {% if log.state == 'archived' %}hat die Datei <span class="font-weight-bold"></span>{{ log.caption }}</span> archiviert.{% endif %}
+                        {% if log.state == 'archived' %}hat die Datei <span class="font-weight-bold">{{ log.caption }}</span> archiviert.{% endif %}
                     </div>
                     <div class="col text-right p-1">
                         <small>{{ log.timestamp.strftime('%d.%m.%Y %H:%M') }}</small></div>
