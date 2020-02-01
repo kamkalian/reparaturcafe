@@ -78,6 +78,8 @@ class Attachment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     online_check_id = db.Column(db.Integer, db.ForeignKey('online_check.id'))
     filename = db.Column(db.String(255))
+    is_active = db.Column('is_active', db.Boolean(),
+                       nullable=False, server_default='1')
 
 
 class Log(db.Model):
