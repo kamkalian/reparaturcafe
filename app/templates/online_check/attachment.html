@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block c %}
+<hr>
+
+<div class="row">
+    <div class="col-md-auto">
+        <div class="row">
+            <a class="btn btn-fixed m-1" href="{{ url_for('online_check.onlinecheck', oc_id=oc_id, new_comment=False) }}">Zurück</a>
+        </div>
+    </div>
+</div>
+
+<hr>
+<div class="d-none d-sm-block" style="height: 20px;"></div>
+
+<div class="container-lg">
+
+    <div class="row">
+        <div class="col">
+            <h3>{{ filename }}</h3>
+            <a href="{{ url_for('static', filename='attachments/'+filename) }}">
+                <img src="{{ url_for('static', filename='attachments/'+filename) }}" style="max-width: 900px;" class="my-3">
+            </a>
+            <form action="{{ url_for('online_check.attachment_archive') }}" 
+                id="" 
+                method="POST" 
+                name="">
+                <input type="hidden" name="oc_id" value="{{ oc_id }}">
+                <input type="hidden" name="attachment_id" value="{{ attachment_id }}">
+                <input type="submit" class="btn btn-fixed mt-2" value="Archivieren">
+            </form>            
+        </div>
+    </div>
+
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+    <hr>
+    <div class="d-none d-sm-block" style="height: 20px;"></div>
+
+    
+</div>
+
+{% endblock %}
