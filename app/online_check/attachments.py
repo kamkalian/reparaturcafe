@@ -111,7 +111,7 @@ def attachment_upload():
                 log = Log(caption=filename,
                   online_check_id=oc_id,
                   user_id=supervisor_id,
-                  type='upload',
+                  type='attachment',
                   state='new')
                 db.session.add(log)
 
