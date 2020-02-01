@@ -216,6 +216,28 @@
                      style="white-space: pre-line">{{ log.caption }}</div>
             </div>
             {% endif %}
+            {% if log.type == 'upload' %}
+            <div class="container mt-3 align-items-start">
+                <div class="row bg-light p-1 border rounded align-items-center">
+
+                    <div class="mr-1 p-1 text-nowrap" style="line-height: 1;">
+                        {% if log.user %}
+                        <img class="avatar_ico mr-1 rounded" src="{{ log.user.avatar(21) }}">
+                        {{ log.user.username }}:
+                        {% else %}
+                        Kunde:
+                        {% endif %}
+                    </div>
+
+                    <div class="p-1">
+                        {% if log.state == 'new' %}hat die Datei <span class="font-weight-bold">{{ log.caption }}</span> hochgeladen.{% endif %}
+                        {% if log.state == 'archived' %}hat die Datei <span class="font-weight-bold"></span>{{ log.caption }}</span> archiviert.{% endif %}
+                    </div>
+                    <div class="col text-right p-1">
+                        <small>{{ log.timestamp.strftime('%d.%m.%Y %H:%M') }}</small></div>
+                </div>
+            </div>
+            {% endif %}
             {% endfor %}
 
             <div class="row justify-content-end">
