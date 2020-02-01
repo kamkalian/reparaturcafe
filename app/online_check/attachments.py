@@ -1,7 +1,7 @@
 from app.online_check import bp
 from flask_user import current_user, login_required
 from flask import request, redirect, url_for, flash, current_app
-from app.models import Attachment
+from app.models import Attachment, Log
 import json
 from werkzeug.utils import secure_filename
 import os
@@ -81,6 +81,19 @@ def attachment_upload():
                 # Eintrag in DB schreiben
                 attachment = Attachment(online_check_id=oc_id, filename=filename)
                 db.session.add(attachment)
+
+                # Log Eintrag in DB schreiben
+                if current_user.is_authenticated:
+                    supervisor_id = current_user.id
+                else:
+                    supervisor_id = None
+                log = Log(caption=filename,
+                  online_check_id=oc_id,
+                  user_id=supervisor_id,
+                  type='upload',
+                  state='new')
+                db.session.add(log)
+
                 db.session.commit()
 
                 flash(u'Datei wurde hochgeladen.', 'success')
