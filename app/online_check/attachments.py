@@ -43,7 +43,7 @@ def attachment_list():
     attachment_list = Attachment.query.filter_by(online_check_id=oc_id, is_active=1).all()
     attachment_filename_list = []
     for attachment in attachment_list:
-        attachment_filename_list.append(attachment.filename)
+        attachment_filename_list.append((attachment.id, attachment.filename))
 
     return json.dumps(attachment_filename_list)
 
