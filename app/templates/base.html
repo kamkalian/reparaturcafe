@@ -1,22 +1,13 @@
-{% extends 'bootstrap/base.html' %}
+<head>
+    <title>{% if title %}{{ title }} - Reparaturcafe{% else %}Reparaturcafe{% endif %}</title>
+</head>
 
-
-{% block title %}
-    {% if title %}{{ title }} - Reparaturcafe{% else %}Reparaturcafe{% endif %}
-{% endblock %}
-
-{% block styles %}
-{{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/jquery-ui.css') }}">
-{% endblock %}
 
-{% block scripts %}
 <script src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
-{% endblock %}
 
-{% block navbar %}
 <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
     <a class="navbar-brand" href="{{ url_for('main.index') }}">
 		<img src="{{ url_for('static', filename='logo.svg') }}" width="50px" height="50px">
@@ -50,47 +41,43 @@
     </div>
 
 </nav>
-{% endblock %}
 
 
-{% block content %}
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<div class="container p-3">
 
-    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-    <div class="container p-3">
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-
-        <h1 class="pb-2">{{ title }}</h1>
-    {% block c %}
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-
-        {# application content needs to be provided in the app_content block #}
-        {% block app_content %}{% endblock %}
-    {% endblock %}
-    </div>
-    <hr>
-    <div class="row m-0">
-        <div class="ml-auto mr-auto">
-            <a class="" href="#">Datenschutzerklärung</a> |
-            <a class="" href="#">Impressum</a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-    </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
 
+    <h1 class="pb-2">{{ title }}</h1>
+{% block c %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {# application content needs to be provided in the app_content block #}
+    {% block app_content %}{% endblock %}
 {% endblock %}
+</div>
+<hr>
+<div class="row m-0">
+    <div class="ml-auto mr-auto">
+        <a class="" href="#">Datenschutzerklärung</a> |
+        <a class="" href="#">Impressum</a>
+    </div>
+</div>
+

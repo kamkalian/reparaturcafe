@@ -1,22 +1,19 @@
-{% extends 'bootstrap/base.html' %}
 
 
-{% block title %}
-{% if title %}{{ title }} - Reparaturcafe{% else %}Reparaturcafe{% endif %}
-{% endblock %}
+<head>
+    <title>
+        {% if title %}{{ title }} - Reparaturcafe{% else %}Reparaturcafe{% endif %}
+    </title>
+</head>
 
-{% block styles %}
-{{ super() }}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/jquery-ui.css') }}">
-{% endblock %}
 
-{% block scripts %}
+
 <script src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
-{% endblock %}
 
-{% block content %}
 
 <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
@@ -26,5 +23,3 @@
     {% block app_content %}{% endblock %}
     {% endblock %}
 </div>
-
-{% endblock %}

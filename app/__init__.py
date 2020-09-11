@@ -1,7 +1,6 @@
 import os
 from flask import Flask
 from app.config import Config, DevConfig, ProdConfig
-from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
@@ -11,7 +10,6 @@ from flask_session import Session
 
 db = SQLAlchemy()
 migrate = Migrate()
-bootstrap = Bootstrap()
 mail = Mail()
 session = Session()
 
@@ -32,7 +30,6 @@ def create_app(config_class=ProdConfig):
 
     db.init_app(app)
     migrate.init_app(app, db)
-    bootstrap.init_app(app)
     mail.init_app(app)
 
     from app.models import User
