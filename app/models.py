@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_user import UserMixin
 from hashlib import md5
 from flask import current_app
+from flask_user import current_user
 
 
 class User(UserMixin, db.Model):
@@ -39,6 +40,11 @@ class User(UserMixin, db.Model):
 
     def set_password(self, password):
         self.password = current_app.user_manager.hash_password(password)
+
+    def is_admin(self):
+        if "admin" in [r.name for r in current_user.roles]:
+            return True
+        return False
 
 
 class Role(db.Model):
