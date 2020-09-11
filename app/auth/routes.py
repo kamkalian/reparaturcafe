@@ -50,7 +50,8 @@ def user_edit(username):
 @bp.route('/user_management', methods=['GET', 'POST'])
 @login_required
 def user_management():
-    if current_user.role == 'admin':
+    
+    if current_user.is_admin():
         user_list = User.query.all()
         roles = Role.query.all()
         return render_template('auth/user_management.html',
