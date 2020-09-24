@@ -14,13 +14,16 @@ Wofür ist dieses Webtool gut?
 Mit diesem Webtool kannst Du eine Datenbank aufbauen,
 in der alle reparierten Geräte dokumentiert werden.
 
-Folgende Features stehen zur verfügung:
+Folgende Features stehen zur aktuell verfügung:
 
 - Es können Anfragen, sogenannte Onlinechecks erstellt werden
 - Eine Übersicht zeigt alle Onlinechecks in einer filterbaren Liste an
-- Mit dem Statuskonzept kannst Du den aktuellen Status eines Onlinechecks
-  setzen und ändern
-- Der Telegram Bot meldet in Echtzeit aktuelle Statusänderungen.
+- Mit dem Statuskonzept kann der aktuellen Status eines Onlinechecks
+  gesetzt und geändert werden.
+- Über das Hochladen von Anhängen können Fotos und PDFs(z.B. Anleitungen) zu einem Onlinecheck hinterlegt werden.
+- Eine Kommentar Funktion ermöglicht detalierte Informationen zum Onlinecheck bzw. zum Gerät abzuspeichern.
+- In der Historie eines Onlinechecks lassen sich alle Aktionen(Statusänderungen, Kommentare, Anhänge) ablesen.
+- Der Telegram Bot meldet in Echtzeit neue Onlinechecks.
 
 Was wird benötigt?
 ==================
